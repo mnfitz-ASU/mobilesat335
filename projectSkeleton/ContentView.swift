@@ -87,7 +87,10 @@ struct MyMapView : UIViewRepresentable
         
         for var satellite in satellites
         {
-            // ADD ME
+           /*
+            var newAnnotation : MKPointAnnotation = MKPointAnnotation(__coordinate: location.mCoordinate, title: location.mName, subtitle: nil)
+            mapView.addAnnotation(newAnnotation)
+            */
         }
     }
 }
@@ -99,7 +102,6 @@ struct ContentView: View
     @State var mapType : MKMapType = .standard
     
     @State private var satellites : [Satellite] = []
-    @State private var favorites : [Satellite] = []
     
     /*
      https://celestrak.org/NORAD/elements/gp.php?<QUERY>=<VALUE>&FORMAT=JSON-PRETTY
@@ -145,7 +147,11 @@ struct ContentView: View
                     //newSatellite.mLatitude = {INSERT CODE}
                     //newSatellite.mLongitude = {INSERT CODE}
                     
-                    satellites.append(newSatellite)
+                    var isUnique : Bool = ((satellites.first(where: {$0.mName == newSatellite.mName})) == nil)
+                    if (isUnique)
+                    {
+                        satellites.append(newSatellite)
+                    }
                 }
             } catch DecodingError.dataCorrupted(let context) {
                 print(context)
@@ -189,6 +195,44 @@ struct ContentView: View
                 .environmentObject(mapSettings)
                 .frame(width: 400, height: 300)
                 
+                ScrollView(.horizontal, showsIndicators: true)
+                {
+                    HStack{
+                        ForEach(satellites)
+                        {
+                            favorite in
+                            if (favorite.mIsFavorite)
+                            {
+                                VStack
+                                {
+                                    Text(favorite.mName).font(.system(size:12))
+                                    /*
+                                     Text(String(location.mCoordinate.latitude)).font(.system(size:10))
+                                     Text(String(location.mCoordinate.longitude)).font(.system(size:10))
+                                     */
+                                    /*
+                                     NavigationLink(destination: DetailView(region: $region, mapType: $mapType, location: location)
+                                     .environmentObject(mapSettings))
+                                     {
+                                     Text("Search Location")
+                                     }
+                                     .onTapGesture
+                                     {
+                                     //region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: location.mCoordinate.latitude, longitude: location.mCoordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 7, longitudeDelta: 7))
+                                     //region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: location.mCoordinate.latitude, longitude: location.mCoordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5))
+                                     }
+                                     */
+                                }
+                                .padding()
+                                .background(Color.blue.opacity(0.5))
+                                .cornerRadius(10)
+                                .padding()
+                            }
+                            
+                        }
+                    }
+                }
+                
                 Picker("Query Type", selection: $gQuery)
                 {
                     Text("Name").tag("NAME=")
@@ -200,25 +244,19 @@ struct ContentView: View
                 
                 HStack
                 {
-                    Text("Search Satellite:")
+                    Text("Add Satellite:")
                     TextField("Value", text: $gValue)
                 }
-                Button("Search")
+                Button("Add")
                 {
                     getSatellite()
-                    print("Finish")
                 }
                 
-                ScrollView(.horizontal, showsIndicators: true)
+                NavigationLink(destination: ListView(satellites: $satellites))
                 {
-                    HStack{
-                        ForEach(favorites)
-                        {
-                            favorite in
-                            // ADD FAVORITES HERE
-                        }
-                    }
+                    Text("List Satellites")
                 }
+                
             }
             .navigationTitle("Map")
             .listStyle(.grouped)
@@ -226,131 +264,53 @@ struct ContentView: View
     } // NavigationView
 }
 
-
-struct AddView: View
+struct ListView: View
 {
     @Binding var satellites : [Satellite]
-    
-    @State var mSatellite : Satellite = Satellite()
-    @State var mWasAdded : String = ""
-    
-    func AddSatellite(inSatellite : Satellite) -> Bool
-    {
-        // ADD SATELLITE SEARCH HERE
-        
-        let searchIndex = satellites.firstIndex(where: {$0.mName == inSatellite.mName})
-        let isUnique: Bool = (searchIndex == nil)
-        if (isUnique)
-        {
-            satellites.append(inSatellite)
-        }
-        return isUnique
-    }
-    
-    var body: some View
-    {
-        VStack
-        {
-            Text("Add Satellite").font(.system(size: 30))
-            
-            VStack(alignment: .leading)
-            {
-                HStack()
-                {
-                    Text("Name: ")
-                    TextField("Name", text: $mSatellite.mName)
-                }
-            }
-            .padding()
-            
-            Button("Add Satellite")
-            {
-                var isAdded : Bool = AddSatellite(inSatellite: mSatellite)
-                if (isAdded)
-                {
-                    mWasAdded = "Satellite " + mSatellite.mName + " was successfully Added."
-                }
-                else
-                {
-                    mWasAdded = "Satellite " + mSatellite.mName + " can't be added!"
-                }
-            }
-            .padding()
-            .background(Color.blue.opacity(0.5))
-            .cornerRadius(10)
-            .padding()
-            
-            Text("Result: " + mWasAdded).bold()
-        }
-    }
-}
-
-struct DeleteView: View
-{
-    @Binding var satellites : [Satellite]
-    @Binding var favorites : [Satellite]
-                    
-    @State var mName : String = ""
-    @State var mWasDeleted : String = "Nothing Deleted"
-    
-    func DeleteRecord(inName: String) -> Bool
-    {
-        let index = satellites.firstIndex(where: {$0.mName == inName})
-        let isFound : Bool = (index != nil)
-        if (isFound)
-        {
-            satellites.remove(at: index!)
-        }
-        return isFound
-    }
-    
-    var body: some View
-    {
-        VStack
-        {
-            Text("Delete Satellite").font(.system(size: 30))
-
-            VStack(alignment: .leading)
-            {
-                HStack
-                {
-                    Text("Name: ")
-                    TextField("Name", text: $mName)
-                }
-            }
-            .padding()
-            
-            Button("Delete Satellite")
-            {
-                let isDeleted : Bool = DeleteRecord(inName: mName)
-                if (isDeleted){
-                    mWasDeleted = "Satellite " + mName + " was successfully Deleted"
-                }
-                else{
-                    mWasDeleted = "Nothing Deleted"
-                }
-            }
-            .padding()
-            .background(Color.blue.opacity(0.5))
-            .cornerRadius(10)
-            .padding()
-            
-            Text("Result: " + mWasDeleted).bold()
-        }
-    }
-}
-
-struct SearchView: View
-{
-    @Binding var satellites : [Satellite]
-    @Binding var favorites : [Satellite]
     
     var body: some View
     {
         VStack
         {
             Text("Satellite Search").font(.system(size: 30))
-            // ADD SATELLITE LIST AND FAVORITES BUTTON
+            
+            ForEach(satellites)
+            {
+                satellite in
+                VStack
+                {
+                    HStack
+                    {
+                        VStack
+                        {
+                            Text(satellite.mName)
+                            Text(String(satellite.mLongitude))
+                            Text(String(satellite.mLatitude))
+                        }
+                        if (satellite.mIsFavorite)
+                        {
+                            Image("YellowStar")
+                                .resizable().aspectRatio(contentMode: .fit).frame(maxWidth: 50, maxHeight: 50)                    .onTapGesture
+                            {
+                                satellite.mIsFavorite.toggle()
+                            }
+                        }
+                        else
+                        {
+                            Image("GrayStar")
+                                .resizable().aspectRatio(contentMode: .fit).frame(maxWidth: 50, maxHeight: 50)                    .onTapGesture
+                            {
+                                satellite.mIsFavorite.toggle()
+                            }
+                        }
+                        Image("Trash")
+                            .resizable().aspectRatio(contentMode: .fit).frame(maxWidth: 50, maxHeight: 50)                    .onTapGesture
+                        {
+                            satellites.removeAll(where: {$0.mName == satellite.mName})
+                        }
+                    }
+                }
+            }
         }
     }
 }
