@@ -293,6 +293,10 @@ struct ListView: View
                                 .resizable().aspectRatio(contentMode: .fit).frame(maxWidth: 50, maxHeight: 50)                    .onTapGesture
                             {
                                 satellite.mIsFavorite.toggle()
+                                
+                                // FIXME: Make ObservableObject that refreshes automatically when modified
+                                satellites.append(Satellite())
+                                satellites.remove(at: satellites.count-1)
                             }
                         }
                         else
@@ -301,6 +305,10 @@ struct ListView: View
                                 .resizable().aspectRatio(contentMode: .fit).frame(maxWidth: 50, maxHeight: 50)                    .onTapGesture
                             {
                                 satellite.mIsFavorite.toggle()
+                                
+                                // FIXME: Make ObservableObject that refreshes automatically when modified
+                                satellites.append(Satellite())
+                                satellites.remove(at: satellites.count-1)
                             }
                         }
                         Image("Trash")
