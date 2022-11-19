@@ -7,6 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE143C18292952B000426418 /* cNoradBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143BF7292952B000426418 /* cNoradBase.cpp */; };
+		BE143C19292952B000426418 /* cNoradSGP4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143BF8292952B000426418 /* cNoradSGP4.cpp */; };
+		BE143C1A292952B000426418 /* cOrbit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143BF9292952B000426418 /* cOrbit.cpp */; };
+		BE143C1B292952B000426418 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143BFA292952B000426418 /* stdafx.cpp */; };
+		BE143C1C292952B000426418 /* cSatellite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143BFB292952B000426418 /* cSatellite.cpp */; };
+		BE143C1D292952B000426418 /* cNoradSDP4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143BFC292952B000426418 /* cNoradSDP4.cpp */; };
+		BE143C1E292952B000426418 /* cJulian.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143BFE292952B000426418 /* cJulian.cpp */; };
+		BE143C1F292952B000426418 /* cTLE.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143C01292952B000426418 /* cTLE.cpp */; };
+		BE143C21292952B000426418 /* globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143C07292952B000426418 /* globals.cpp */; };
+		BE143C22292952B000426418 /* cEci.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143C08292952B000426418 /* cEci.cpp */; };
+		BE143C23292952B000426418 /* cSite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143C09292952B000426418 /* cSite.cpp */; };
+		BE143C24292952B000426418 /* coord.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143C0A292952B000426418 /* coord.cpp */; };
+		BE143C25292952B000426418 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143C0B292952B000426418 /* stdafx.cpp */; };
+		BE143C28292952B000426418 /* cVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143C12292952B000426418 /* cVector.cpp */; };
+		BE143C29292952B000426418 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = BE143C13292952B000426418 /* readme.txt */; };
 		BEA939E729065069008A835D /* projectSkeletonApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA939E629065069008A835D /* projectSkeletonApp.swift */; };
 		BEA939E929065069008A835D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA939E829065069008A835D /* ContentView.swift */; };
 		BEA939EB2906506E008A835D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEA939EA2906506E008A835D /* Assets.xcassets */; };
@@ -34,6 +49,38 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BE143BED292952AF00426418 /* cNoradSGP4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cNoradSGP4.h; sourceTree = "<group>"; };
+		BE143BEF292952AF00426418 /* cNoradSDP4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cNoradSDP4.h; sourceTree = "<group>"; };
+		BE143BF0292952AF00426418 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
+		BE143BF2292952AF00426418 /* cOrbit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cOrbit.h; sourceTree = "<group>"; };
+		BE143BF3292952B000426418 /* orbitLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = orbitLib.h; sourceTree = "<group>"; };
+		BE143BF5292952B000426418 /* cSatellite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cSatellite.h; sourceTree = "<group>"; };
+		BE143BF6292952B000426418 /* cNoradBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cNoradBase.h; sourceTree = "<group>"; };
+		BE143BF7292952B000426418 /* cNoradBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cNoradBase.cpp; sourceTree = "<group>"; };
+		BE143BF8292952B000426418 /* cNoradSGP4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cNoradSGP4.cpp; sourceTree = "<group>"; };
+		BE143BF9292952B000426418 /* cOrbit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cOrbit.cpp; sourceTree = "<group>"; };
+		BE143BFA292952B000426418 /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdafx.cpp; sourceTree = "<group>"; };
+		BE143BFB292952B000426418 /* cSatellite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cSatellite.cpp; sourceTree = "<group>"; };
+		BE143BFC292952B000426418 /* cNoradSDP4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cNoradSDP4.cpp; sourceTree = "<group>"; };
+		BE143BFE292952B000426418 /* cJulian.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cJulian.cpp; sourceTree = "<group>"; };
+		BE143BFF292952B000426418 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
+		BE143C00292952B000426418 /* cTLE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cTLE.h; sourceTree = "<group>"; };
+		BE143C01292952B000426418 /* cTLE.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cTLE.cpp; sourceTree = "<group>"; };
+		BE143C03292952B000426418 /* exceptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = exceptions.h; sourceTree = "<group>"; };
+		BE143C04292952B000426418 /* cVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cVector.h; sourceTree = "<group>"; };
+		BE143C05292952B000426418 /* coord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coord.h; sourceTree = "<group>"; };
+		BE143C06292952B000426418 /* globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = globals.h; sourceTree = "<group>"; };
+		BE143C07292952B000426418 /* globals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = globals.cpp; sourceTree = "<group>"; };
+		BE143C08292952B000426418 /* cEci.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cEci.cpp; sourceTree = "<group>"; };
+		BE143C09292952B000426418 /* cSite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cSite.cpp; sourceTree = "<group>"; };
+		BE143C0A292952B000426418 /* coord.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = coord.cpp; sourceTree = "<group>"; };
+		BE143C0B292952B000426418 /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdafx.cpp; sourceTree = "<group>"; };
+		BE143C0D292952B000426418 /* coreLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coreLib.h; sourceTree = "<group>"; };
+		BE143C0E292952B000426418 /* cJulian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cJulian.h; sourceTree = "<group>"; };
+		BE143C0F292952B000426418 /* cSite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cSite.h; sourceTree = "<group>"; };
+		BE143C10292952B000426418 /* cEci.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cEci.h; sourceTree = "<group>"; };
+		BE143C12292952B000426418 /* cVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cVector.cpp; sourceTree = "<group>"; };
+		BE143C13292952B000426418 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		BEA939E329065069008A835D /* projectSkeleton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = projectSkeleton.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEA939E629065069008A835D /* projectSkeletonApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = projectSkeletonApp.swift; sourceTree = "<group>"; };
 		BEA939E829065069008A835D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -72,9 +119,66 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BE143BEB292952AF00426418 /* orbitTools */ = {
+			isa = PBXGroup;
+			children = (
+				BE143BEC292952AF00426418 /* orbit */,
+				BE143BFD292952B000426418 /* core */,
+				BE143C13292952B000426418 /* readme.txt */,
+			);
+			name = orbitTools;
+			path = projectSkeleton/zeptomoby.com/cppOrbitTools/orbitTools;
+			sourceTree = SOURCE_ROOT;
+		};
+		BE143BEC292952AF00426418 /* orbit */ = {
+			isa = PBXGroup;
+			children = (
+				BE143BED292952AF00426418 /* cNoradSGP4.h */,
+				BE143BEF292952AF00426418 /* cNoradSDP4.h */,
+				BE143BF0292952AF00426418 /* stdafx.h */,
+				BE143BF2292952AF00426418 /* cOrbit.h */,
+				BE143BF3292952B000426418 /* orbitLib.h */,
+				BE143BF5292952B000426418 /* cSatellite.h */,
+				BE143BF6292952B000426418 /* cNoradBase.h */,
+				BE143BF7292952B000426418 /* cNoradBase.cpp */,
+				BE143BF8292952B000426418 /* cNoradSGP4.cpp */,
+				BE143BF9292952B000426418 /* cOrbit.cpp */,
+				BE143BFA292952B000426418 /* stdafx.cpp */,
+				BE143BFB292952B000426418 /* cSatellite.cpp */,
+				BE143BFC292952B000426418 /* cNoradSDP4.cpp */,
+			);
+			path = orbit;
+			sourceTree = "<group>";
+		};
+		BE143BFD292952B000426418 /* core */ = {
+			isa = PBXGroup;
+			children = (
+				BE143BFE292952B000426418 /* cJulian.cpp */,
+				BE143BFF292952B000426418 /* stdafx.h */,
+				BE143C00292952B000426418 /* cTLE.h */,
+				BE143C01292952B000426418 /* cTLE.cpp */,
+				BE143C03292952B000426418 /* exceptions.h */,
+				BE143C04292952B000426418 /* cVector.h */,
+				BE143C05292952B000426418 /* coord.h */,
+				BE143C06292952B000426418 /* globals.h */,
+				BE143C07292952B000426418 /* globals.cpp */,
+				BE143C08292952B000426418 /* cEci.cpp */,
+				BE143C09292952B000426418 /* cSite.cpp */,
+				BE143C0A292952B000426418 /* coord.cpp */,
+				BE143C0B292952B000426418 /* stdafx.cpp */,
+				BE143C0D292952B000426418 /* coreLib.h */,
+				BE143C0E292952B000426418 /* cJulian.h */,
+				BE143C0F292952B000426418 /* cSite.h */,
+				BE143C10292952B000426418 /* cEci.h */,
+				BE143C12292952B000426418 /* cVector.cpp */,
+			);
+			path = core;
+			sourceTree = "<group>";
+		};
 		BE79980F29219C13007F7CBB /* orbittools */ = {
 			isa = PBXGroup;
 			children = (
+				BEC2AA1D2929522C009FAE5F /* cpp */,
 				BEC2AA1C29294CD0009FAE5F /* projectSkeleton-Bridging-Header.h */,
 			);
 			path = orbittools;
@@ -135,6 +239,14 @@
 				BEA93A012906506E008A835D /* projectSkeletonUITests.swift */,
 			);
 			path = projectSkeletonUITests;
+			sourceTree = "<group>";
+		};
+		BEC2AA1D2929522C009FAE5F /* cpp */ = {
+			isa = PBXGroup;
+			children = (
+				BE143BEB292952AF00426418 /* orbitTools */,
+			);
+			path = cpp;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -244,6 +356,7 @@
 			files = (
 				BEA939EE2906506E008A835D /* Preview Assets.xcassets in Resources */,
 				BEA939EB2906506E008A835D /* Assets.xcassets in Resources */,
+				BE143C29292952B000426418 /* readme.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,7 +381,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE143C19292952B000426418 /* cNoradSGP4.cpp in Sources */,
+				BE143C24292952B000426418 /* coord.cpp in Sources */,
+				BE143C28292952B000426418 /* cVector.cpp in Sources */,
+				BE143C1D292952B000426418 /* cNoradSDP4.cpp in Sources */,
+				BE143C18292952B000426418 /* cNoradBase.cpp in Sources */,
+				BE143C1F292952B000426418 /* cTLE.cpp in Sources */,
 				BEA939E929065069008A835D /* ContentView.swift in Sources */,
+				BE143C22292952B000426418 /* cEci.cpp in Sources */,
+				BE143C21292952B000426418 /* globals.cpp in Sources */,
+				BE143C1E292952B000426418 /* cJulian.cpp in Sources */,
+				BE143C25292952B000426418 /* stdafx.cpp in Sources */,
+				BE143C1B292952B000426418 /* stdafx.cpp in Sources */,
+				BE143C1C292952B000426418 /* cSatellite.cpp in Sources */,
+				BE143C23292952B000426418 /* cSite.cpp in Sources */,
+				BE143C1A292952B000426418 /* cOrbit.cpp in Sources */,
 				BEA939E729065069008A835D /* projectSkeletonApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
