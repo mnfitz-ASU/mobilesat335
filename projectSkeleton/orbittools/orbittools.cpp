@@ -33,9 +33,9 @@ void orbit_to_lla(	const char* in_tle1,	// TLE (Sat Name)
 					double* out_altkm)		// altitude in km
 {
 	// Test SGP4 TLE data
-	in_tle1 = "ISS(ZARYA)";
-	in_tle2 = "1 25544U 98067A   22321.90676521  .00009613  00000 + 0  17572 - 3 0  9999";
-	in_tle3 = "2 25544  51.6438 295.0836 0006994  86.3588   5.1970 15.50066990369021";
+	//in_tle1 = "ISS(ZARYA)";
+	//in_tle2 = "1 25544U 98067A   22321.90676521  .00009613  00000 + 0  17572 - 3 0  9999";
+	//in_tle3 = "2 25544  51.6438 295.0836 0006994  86.3588   5.1970 15.50066990369021";
 
 	// Create a TLE object using the data above
 	cTle tleSGP4(in_tle1, in_tle2, in_tle3);
@@ -101,9 +101,9 @@ void orbit_to_lla2(const char* in_tle1,	// TLE (Sat Name)
 				   double* out_eledegs)	// look angle elevation in degs
 {
 	// Test SGP4 TLE data
-	in_tle1 = "ISS(ZARYA)";
-	in_tle2 = "1 25544U 98067A   22321.90676521  .00009613  00000 + 0  17572 - 3 0  9999";
-    in_tle3 = "2 25544  51.6438 295.0836 0006994  86.3588   5.1970 15.50066990369021";
+	//in_tle1 = "ISS(ZARYA)";
+	//in_tle2 = "1 25544U 98067A   22321.90676521  .00009613  00000 + 0  17572 - 3 0  9999";
+    //in_tle3 = "2 25544  51.6438 295.0836 0006994  86.3588   5.1970 15.50066990369021";
 
 	// Create a TLE object using the data above
 	cTle tleSGP4(in_tle1, in_tle2, in_tle3);
