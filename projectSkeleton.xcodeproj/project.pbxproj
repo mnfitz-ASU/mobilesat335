@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BE79981629219D9C007F7CBB /* SGP4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE79981429219D9C007F7CBB /* SGP4.cpp */; };
 		BEA939E729065069008A835D /* projectSkeletonApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA939E629065069008A835D /* projectSkeletonApp.swift */; };
 		BEA939E929065069008A835D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA939E829065069008A835D /* ContentView.swift */; };
 		BEA939EB2906506E008A835D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEA939EA2906506E008A835D /* Assets.xcassets */; };
@@ -35,10 +34,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		BE79981029219D9C007F7CBB /* projectSkeleton-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "projectSkeleton-Bridging-Header.h"; sourceTree = "<group>"; };
-		BE79981229219D9C007F7CBB /* SGP4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SGP4.h; path = projectSkeleton/celestrak.org/cpp/SGP4/SGP4/SGP4.h; sourceTree = SOURCE_ROOT; };
-		BE79981429219D9C007F7CBB /* SGP4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SGP4.cpp; path = projectSkeleton/celestrak.org/cpp/SGP4/SGP4/SGP4.cpp; sourceTree = SOURCE_ROOT; };
-		BE7998172923352C007F7CBB /* README-celestrak.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "README-celestrak.md"; sourceTree = "<group>"; };
 		BEA939E329065069008A835D /* projectSkeleton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = projectSkeleton.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEA939E629065069008A835D /* projectSkeletonApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = projectSkeletonApp.swift; sourceTree = "<group>"; };
 		BEA939E829065069008A835D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -49,6 +44,7 @@
 		BEA939FD2906506E008A835D /* projectSkeletonUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = projectSkeletonUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEA93A012906506E008A835D /* projectSkeletonUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = projectSkeletonUITests.swift; sourceTree = "<group>"; };
 		BEA93A032906506E008A835D /* projectSkeletonUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = projectSkeletonUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		BEC2AA1C29294CD0009FAE5F /* projectSkeleton-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "projectSkeleton-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,14 +72,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		BE79980F29219C13007F7CBB /* celestrak */ = {
+		BE79980F29219C13007F7CBB /* orbittools */ = {
 			isa = PBXGroup;
 			children = (
-				BE79981429219D9C007F7CBB /* SGP4.cpp */,
-				BE79981229219D9C007F7CBB /* SGP4.h */,
-				BE79981029219D9C007F7CBB /* projectSkeleton-Bridging-Header.h */,
+				BEC2AA1C29294CD0009FAE5F /* projectSkeleton-Bridging-Header.h */,
 			);
-			path = celestrak;
+			path = orbittools;
 			sourceTree = "<group>";
 		};
 		BEA939DA29065069008A835D = {
@@ -109,10 +103,9 @@
 		BEA939E529065069008A835D /* projectSkeleton */ = {
 			isa = PBXGroup;
 			children = (
-				BE79980F29219C13007F7CBB /* celestrak */,
+				BE79980F29219C13007F7CBB /* orbittools */,
 				BEA939E629065069008A835D /* projectSkeletonApp.swift */,
 				BEA939E829065069008A835D /* ContentView.swift */,
-				BE7998172923352C007F7CBB /* README-celestrak.md */,
 				BEA939EA2906506E008A835D /* Assets.xcassets */,
 				BEA939EC2906506E008A835D /* Preview Content */,
 			);
@@ -277,7 +270,6 @@
 			files = (
 				BEA939E929065069008A835D /* ContentView.swift in Sources */,
 				BEA939E729065069008A835D /* projectSkeletonApp.swift in Sources */,
-				BE79981629219D9C007F7CBB /* SGP4.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,7 +444,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.asu.fitzgeraldmatthew.projectSkeleton;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "projectSkeleton/celestrak/projectSkeleton-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "projectSkeleton/orbittools/projectSkeleton-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -483,7 +475,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.asu.fitzgeraldmatthew.projectSkeleton;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "projectSkeleton/celestrak/projectSkeleton-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "projectSkeleton/orbittools/projectSkeleton-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
