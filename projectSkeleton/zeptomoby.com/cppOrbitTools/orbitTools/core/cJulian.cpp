@@ -237,6 +237,7 @@ time_t cJulian::ToTime() const
       // mktime() expects a local time which means that tEpoch now needs 
       // to be adjusted by the difference between this time zone and GMT.
       long secDelta = 0;
+       assert (!"To Figure out Time Zone");
 
       //_get_timezone(&secDelta);
 

@@ -22,6 +22,7 @@
 		BE143C25292952B000426418 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143C0B292952B000426418 /* stdafx.cpp */; };
 		BE143C28292952B000426418 /* cVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143C12292952B000426418 /* cVector.cpp */; };
 		BE143C29292952B000426418 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = BE143C13292952B000426418 /* readme.txt */; };
+		BE143C2D2929598A00426418 /* orbittools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143C2B2929598A00426418 /* orbittools.cpp */; };
 		BEA939E729065069008A835D /* projectSkeletonApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA939E629065069008A835D /* projectSkeletonApp.swift */; };
 		BEA939E929065069008A835D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA939E829065069008A835D /* ContentView.swift */; };
 		BEA939EB2906506E008A835D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEA939EA2906506E008A835D /* Assets.xcassets */; };
@@ -81,6 +82,8 @@
 		BE143C10292952B000426418 /* cEci.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cEci.h; sourceTree = "<group>"; };
 		BE143C12292952B000426418 /* cVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cVector.cpp; sourceTree = "<group>"; };
 		BE143C13292952B000426418 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
+		BE143C2B2929598A00426418 /* orbittools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = orbittools.cpp; sourceTree = "<group>"; };
+		BE143C2C2929598A00426418 /* orbittools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = orbittools.h; sourceTree = "<group>"; };
 		BEA939E329065069008A835D /* projectSkeleton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = projectSkeleton.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEA939E629065069008A835D /* projectSkeletonApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = projectSkeletonApp.swift; sourceTree = "<group>"; };
 		BEA939E829065069008A835D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -178,8 +181,10 @@
 		BE79980F29219C13007F7CBB /* orbittools */ = {
 			isa = PBXGroup;
 			children = (
-				BEC2AA1D2929522C009FAE5F /* cpp */,
 				BEC2AA1C29294CD0009FAE5F /* projectSkeleton-Bridging-Header.h */,
+				BE143C2B2929598A00426418 /* orbittools.cpp */,
+				BE143C2C2929598A00426418 /* orbittools.h */,
+				BEC2AA1D2929522C009FAE5F /* cpp */,
 			);
 			path = orbittools;
 			sourceTree = "<group>";
@@ -393,6 +398,7 @@
 				BE143C1E292952B000426418 /* cJulian.cpp in Sources */,
 				BE143C25292952B000426418 /* stdafx.cpp in Sources */,
 				BE143C1B292952B000426418 /* stdafx.cpp in Sources */,
+				BE143C2D2929598A00426418 /* orbittools.cpp in Sources */,
 				BE143C1C292952B000426418 /* cSatellite.cpp in Sources */,
 				BE143C23292952B000426418 /* cSite.cpp in Sources */,
 				BE143C1A292952B000426418 /* cOrbit.cpp in Sources */,

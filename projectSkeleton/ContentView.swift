@@ -10,7 +10,7 @@ import Foundation
 import MapKit
 
 // Codable: Allows the object to be decoded from one representation and encoded into another.
-struct OrbitalData : Codable
+struct OrbitalDataJSON : Codable
 {
     var OBJECT_NAME : String = ""
     var OBJECT_ID : String = ""
@@ -37,7 +37,7 @@ class Satellite : Identifiable
     var mName : String = ""
     var mLatitude : Double = 0
     var mLongitude : Double = 0
-    var mData : OrbitalData = OrbitalData()
+    var mData : OrbitalDataJSON = OrbitalDataJSON()
     var mIsFavorite : Bool = false
     
     func UpdateData()
@@ -136,16 +136,30 @@ struct ContentView: View
                 let decoder = JSONDecoder()
                 // TRICKY: Note the use of [OrbitalData] result as an array
                 // as the Celestrak REST API returns JSON results in a JSON array
-                let jsonResult = try decoder.decode([OrbitalData].self, from: data!)
+                let jsonResult = try decoder.decode([OrbitalDataJSON].self, from: data!)
                 if (jsonResult != nil)
                 {
-                    var orbitalData : OrbitalData = jsonResult[0]
+                    var orbitalData : OrbitalDataJSON = jsonResult[0]
                     var newSatellite : Satellite = Satellite()
                     
                     newSatellite.mName = orbitalData.OBJECT_NAME
                     newSatellite.mData = orbitalData
-                    //newSatellite.mLatitude = {INSERT CODE}
-                    //newSatellite.mLongitude = {INSERT CODE}
+                    
+                    // TRICKY: Calling a C routine that needs to return values using C pointers
+                    // In SwiftUI, we simulate C pointers using UnsafeMutablePointer<>
+                    var age : Double = 0
+                    var ageP : UnsafeMutablePointer<Double> = .init(&age)
+                    var lat : Double = 0
+                    var latP : UnsafeMutablePointer<Double> = .init(&lat)
+                    var lon : Double = 0
+                    var lonP : UnsafeMutablePointer<Double> = .init(&lon)
+                    var alt : Double = 0
+                    var altP : UnsafeMutablePointer<Double> = .init(&alt)
+                    
+                    // TRICKY: Call C function here using the SwiftUI binding header decl.
+                    orbit_to_lla(nil, nil, nil, ageP, latP, lonP, altP)
+                    newSatellite.mLatitude = lat
+                    newSatellite.mLongitude = lon
                     
                     var isUnique : Bool = ((satellites.first(where: {$0.mName == newSatellite.mName})) == nil)
                     if (isUnique)
