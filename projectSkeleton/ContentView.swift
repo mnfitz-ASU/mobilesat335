@@ -9,8 +9,15 @@ import SwiftUI
 import Foundation
 import MapKit
 
+struct OrbitalDataTLE : Codable
+{
+    var satName : String = ""
+    var line1 : String = ""
+    var line2 : String = ""
+}
+
 // Codable: Allows the object to be decoded from one representation and encoded into another.
-struct OrbitalData : Codable
+struct OrbitalDataJSON : Codable
 {
     var OBJECT_NAME : String = ""
     var OBJECT_ID : String = ""
@@ -37,7 +44,8 @@ class Satellite : Identifiable
     var mName : String = ""
     var mLatitude : Double = 0
     var mLongitude : Double = 0
-    var mData : OrbitalData = OrbitalData()
+    var mData : OrbitalDataTLE = OrbitalDataTLE()
+    var mData2 : OrbitalDataJSON = OrbitalDataJSON()
     var mIsFavorite : Bool = false
     
     func UpdateData()
@@ -74,7 +82,8 @@ struct MyMapView : UIViewRepresentable
 
         for var satellite in satellites
         {
-            // ADD ME
+            var newAnnotation : MKPointAnnotation = MKPointAnnotation(__coordinate: CLLocationCoordinate2D(latitude: satellite.mLatitude, longitude: satellite.mLongitude), title: satellite.mName, subtitle: nil)
+            mapView.addAnnotation(newAnnotation)
         }
         
         return mapView
@@ -87,10 +96,10 @@ struct MyMapView : UIViewRepresentable
         
         for var satellite in satellites
         {
-           /*
-            var newAnnotation : MKPointAnnotation = MKPointAnnotation(__coordinate: location.mCoordinate, title: location.mName, subtitle: nil)
-            mapView.addAnnotation(newAnnotation)
-            */
+           
+            var newAnnotation : MKPointAnnotation = MKPointAnnotation(__coordinate: CLLocationCoordinate2D(latitude: satellite.mLatitude, longitude: satellite.mLongitude), title: satellite.mName, subtitle: nil)
+            uiView.addAnnotation(newAnnotation)
+            
         }
     }
 }
@@ -116,7 +125,7 @@ struct ContentView: View
     @State var gQuery : String = "NAME="
     @State var gValue : String = ""
 
-    func getSatellite()
+    func getSatellite2()
     {
         let urlAsString : String = "https://celestrak.org/NORAD/elements/gp.php?" + gQuery + gValue + "&FORMAT=JSON-PRETTY"
         let testURL : String = "https://celestrak.org/NORAD/elements/gp.php?NAME=MICROSAT-R&FORMAT=JSON-PRETTY"
@@ -136,16 +145,30 @@ struct ContentView: View
                 let decoder = JSONDecoder()
                 // TRICKY: Note the use of [OrbitalData] result as an array
                 // as the Celestrak REST API returns JSON results in a JSON array
-                let jsonResult = try decoder.decode([OrbitalData].self, from: data!)
+                let jsonResult = try decoder.decode([OrbitalDataJSON].self, from: data!)
                 if (jsonResult != nil)
                 {
-                    var orbitalData : OrbitalData = jsonResult[0]
+                    var orbitalData : OrbitalDataJSON = jsonResult[0]
                     var newSatellite : Satellite = Satellite()
                     
                     newSatellite.mName = orbitalData.OBJECT_NAME
-                    newSatellite.mData = orbitalData
-                    //newSatellite.mLatitude = {INSERT CODE}
-                    //newSatellite.mLongitude = {INSERT CODE}
+                    newSatellite.mData2 = orbitalData
+                    
+                    // TRICKY: Calling a C routine that needs to return values using C pointers
+                    // In SwiftUI, we simulate C pointers using UnsafeMutablePointer<>
+                    var age : Double = 0
+                    var ageP : UnsafeMutablePointer<Double> = .init(&age)
+                    var lat : Double = 0
+                    var latP : UnsafeMutablePointer<Double> = .init(&lat)
+                    var lon : Double = 0
+                    var lonP : UnsafeMutablePointer<Double> = .init(&lon)
+                    var alt : Double = 0
+                    var altP : UnsafeMutablePointer<Double> = .init(&alt)
+                    
+                    // TRICKY: Call C function here using the SwiftUI binding header decl.
+                    orbit_to_lla(nil, nil, nil, ageP, latP, lonP, altP)
+                    newSatellite.mLatitude = lat
+                    newSatellite.mLongitude = lon
                     
                     var isUnique : Bool = ((satellites.first(where: {$0.mName == newSatellite.mName})) == nil)
                     if (isUnique)
@@ -170,6 +193,79 @@ struct ContentView: View
         })
         // resume() tells the task to start running on its own thread
         jsonQuery.resume()
+    }
+    
+    func getSatellite()
+    {
+        let urlAsString : String = "https://celestrak.org/NORAD/elements/gp.php?" + gQuery + gValue + "&FORMAT=TLE"
+        let testURL : String = "https://celestrak.org/NORAD/elements/gp.php?NAME=MICROSAT-R&FORMAT=TLE"
+        let url = URL(string: urlAsString)!
+        let urlSession = URLSession.shared
+        
+        // stringQuery is a new task that will run separately to the main thread
+        let stringQuery = urlSession.dataTask(with: url, completionHandler:
+        {
+            data, response, error -> Void in
+            if (error != nil)
+            {
+                print(error!.localizedDescription)
+            }
+            
+            var newSatellite : Satellite = Satellite()
+
+            DispatchQueue.main.async {
+                var tleString : String = String(decoding: data!, as: UTF8.self)
+                var lines = tleString.split(separator: "\r\n")
+                if (lines.count == 3)
+                {
+                    var name : String = String(lines[0]).trimmingCharacters(in: .whitespaces)
+                    var line1 : String = String(lines[1]).trimmingCharacters(in: .whitespaces)
+                    var line2 : String = String(lines[2]).trimmingCharacters(in: .whitespaces)
+                    
+                    newSatellite.mData.satName = name
+                    newSatellite.mData.line1 = line1
+                    newSatellite.mData.line2 = line2
+                    
+                    var isUnique : Bool = ((satellites.first(where: {$0.mName == name})) == nil)
+                    if (isUnique)
+                    {
+                        // TRICKY: Calling a C routine that needs to return values using C pointers
+                        // In SwiftUI, we simulate C pointers using UnsafeMutablePointer<>
+                        
+                        let nameCStr = Array(name.utf8CString)
+                        let line1CStr = Array(line1.utf8CString)
+                        let line2CStr = Array(line2.utf8CString)
+                        
+                        //var nameP : UnsafePointer<Int8> = .init(nameCStr)
+                        //var line1P = UnsafeMutablePointer<CChar>(mutating: line1.utf8CString)
+                        //var line2P = UnsafeMutablePointer<CChar>(mutating: line2.utf8CString)
+
+                        var age : Double = 0
+                        var ageP : UnsafeMutablePointer<Double> = .init(&age)
+                        var lat : Double = 0
+                        var latP : UnsafeMutablePointer<Double> = .init(&lat)
+                        var lon : Double = 0
+                        var lonP : UnsafeMutablePointer<Double> = .init(&lon)
+                        var alt : Double = 0
+                        var altP : UnsafeMutablePointer<Double> = .init(&alt)
+                        
+                        // TRICKY: Call C function here using the SwiftUI binding header decl.
+                        orbit_to_lla(nameCStr, line1CStr, line2CStr, ageP, latP, lonP, altP)
+                        newSatellite.mName = name
+                        newSatellite.mLatitude = lat
+                        newSatellite.mLongitude = lon
+                        
+                        satellites.append(newSatellite)
+                    }
+                    
+                    
+                }
+            }
+            
+            
+        })
+        // resume() tells the task to start running on its own thread
+        stringQuery.resume()
     }
     
     var body: some View
