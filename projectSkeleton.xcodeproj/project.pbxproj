@@ -23,6 +23,7 @@
 		BE143C28292952B000426418 /* cVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143C12292952B000426418 /* cVector.cpp */; };
 		BE143C29292952B000426418 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = BE143C13292952B000426418 /* readme.txt */; };
 		BE143C2D2929598A00426418 /* orbittools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143C2B2929598A00426418 /* orbittools.cpp */; };
+		BE97AA11292AED2F00350CF5 /* CSE335.projectSkeleton.Satellite.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BE97AA0F292AED2F00350CF5 /* CSE335.projectSkeleton.Satellite.xcdatamodeld */; };
 		BEA939E729065069008A835D /* projectSkeletonApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA939E629065069008A835D /* projectSkeletonApp.swift */; };
 		BEA939E929065069008A835D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA939E829065069008A835D /* ContentView.swift */; };
 		BEA939EB2906506E008A835D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEA939EA2906506E008A835D /* Assets.xcassets */; };
@@ -84,6 +85,7 @@
 		BE143C13292952B000426418 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		BE143C2B2929598A00426418 /* orbittools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = orbittools.cpp; sourceTree = "<group>"; };
 		BE143C2C2929598A00426418 /* orbittools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = orbittools.h; sourceTree = "<group>"; };
+		BE97AA10292AED2F00350CF5 /* CSE335.projectSkeleton.Satellite.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CSE335.projectSkeleton.Satellite.xcdatamodel; sourceTree = "<group>"; };
 		BEA939E329065069008A835D /* projectSkeleton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = projectSkeleton.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEA939E629065069008A835D /* projectSkeletonApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = projectSkeletonApp.swift; sourceTree = "<group>"; };
 		BEA939E829065069008A835D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 		BEA939DA29065069008A835D = {
 			isa = PBXGroup;
 			children = (
+				BE97AA0F292AED2F00350CF5 /* CSE335.projectSkeleton.Satellite.xcdatamodeld */,
 				BEA939E529065069008A835D /* projectSkeleton */,
 				BEA939F62906506E008A835D /* projectSkeletonTests */,
 				BEA93A002906506E008A835D /* projectSkeletonUITests */,
@@ -386,6 +389,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE97AA11292AED2F00350CF5 /* CSE335.projectSkeleton.Satellite.xcdatamodeld in Sources */,
 				BE143C19292952B000426418 /* cNoradSGP4.cpp in Sources */,
 				BE143C24292952B000426418 /* coord.cpp in Sources */,
 				BE143C28292952B000426418 /* cVector.cpp in Sources */,
@@ -726,6 +730,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		BE97AA0F292AED2F00350CF5 /* CSE335.projectSkeleton.Satellite.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BE97AA10292AED2F00350CF5 /* CSE335.projectSkeleton.Satellite.xcdatamodel */,
+			);
+			currentVersion = BE97AA10292AED2F00350CF5 /* CSE335.projectSkeleton.Satellite.xcdatamodel */;
+			path = CSE335.projectSkeleton.Satellite.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = BEA939DB29065069008A835D /* Project object */;
 }
