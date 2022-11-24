@@ -25,14 +25,23 @@ struct GeoCoords
     var altitude : Double = 0
 }
 
-extension Satellite //: Identifiable
+extension Satellite
 {
     public var wrappedName : String {name ?? ""}
     public var wrappedTleLine1 : String {tleLine1 ?? ""}
     public var wrappedTleLine2 : String {tleLine2 ?? ""}
     public var wrappedIsFavorite : Bool {isFavorite}
     public var wrappedAge : Date {age ?? Date()}
-    //public var id : UUID {UUID()}
+}
+
+struct SatelliteSelect : Identifiable, Hashable
+{
+    var name : String = ""
+    var tle1 : String = ""
+    var tle2 : String = ""
+    var age : Date = Date.now
+    var isSelected : Bool = false
+    var id : UUID = UUID()
 }
 
 extension CLLocationCoordinate2D: Identifiable
@@ -43,9 +52,39 @@ extension CLLocationCoordinate2D: Identifiable
     }
 }
 
+func calculateGeoCoords(inSatellite : Satellite, inTime : Date) -> GeoCoords
+{
+    // TRICKY: Calling a C routine that needs to return values using C pointers
+    // In SwiftUI, we simulate C pointers using UnsafeMutablePointer<>
+    
+    let nameCStr = Array(inSatellite.wrappedName.utf8CString)
+    let line1CStr = Array(inSatellite.wrappedTleLine1.utf8CString)
+    let line2CStr = Array(inSatellite.wrappedTleLine2.utf8CString)
+
+    var age : Double = 0
+    var ageP : UnsafeMutablePointer<Double> = .init(&age)
+    var lat : Double = 0
+    var latP : UnsafeMutablePointer<Double> = .init(&lat)
+    var lon : Double = 0
+    var lonP : UnsafeMutablePointer<Double> = .init(&lon)
+    var alt : Double = 0
+    var altP : UnsafeMutablePointer<Double> = .init(&alt)
+    
+    // TRICKY: Call C function here using the SwiftUI binding header decl.
+    orbit_to_lla(nameCStr, line1CStr, line2CStr, ageP, latP, lonP, altP)
+    
+    var coords : GeoCoords = GeoCoords()
+    coords.name = inSatellite.wrappedName
+    coords.latitude = lat
+    coords.longitude = lon
+    coords.altitude = alt
+    return coords
+}
+
 class MyMapViewSettings : ObservableObject
 {
     @Published var mapType : MKMapType = .standard
+    @Published var region : MKCoordinateRegion? = nil
 }
 
 struct MyMapView : UIViewRepresentable
@@ -54,36 +93,9 @@ struct MyMapView : UIViewRepresentable
     @FetchRequest(entity: Satellite.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Satellite.name, ascending: true)]) var satellites : FetchedResults<Satellite>
     
     @Binding var region : MKCoordinateRegion
+    @Binding var time : Date
     @EnvironmentObject private var mapSettings : MyMapViewSettings
-    
-    func calculateGeoCoords(inSatellite : Satellite) -> GeoCoords
-    {
-        // TRICKY: Calling a C routine that needs to return values using C pointers
-        // In SwiftUI, we simulate C pointers using UnsafeMutablePointer<>
-        
-        let nameCStr = Array(inSatellite.wrappedName.utf8CString)
-        let line1CStr = Array(inSatellite.wrappedTleLine1.utf8CString)
-        let line2CStr = Array(inSatellite.wrappedTleLine2.utf8CString)
-
-        var age : Double = 0
-        var ageP : UnsafeMutablePointer<Double> = .init(&age)
-        var lat : Double = 0
-        var latP : UnsafeMutablePointer<Double> = .init(&lat)
-        var lon : Double = 0
-        var lonP : UnsafeMutablePointer<Double> = .init(&lon)
-        var alt : Double = 0
-        var altP : UnsafeMutablePointer<Double> = .init(&alt)
-        
-        // TRICKY: Call C function here using the SwiftUI binding header decl.
-        orbit_to_lla(nameCStr, line1CStr, line2CStr, ageP, latP, lonP, altP)
-        
-        var coords : GeoCoords = GeoCoords()
-        coords.name = inSatellite.wrappedName
-        coords.latitude = lat
-        coords.longitude = lon
-        coords.altitude = alt
-        return coords
-    }
+    @State var updateView : Int = 0
     
     // UIViewRepresentable wants these functions defined
     func makeUIView(context: Context) -> MKMapView
@@ -91,10 +103,12 @@ struct MyMapView : UIViewRepresentable
         let mapView = MKMapView(frame: .zero)
         mapView.setRegion(region, animated: false)
         mapView.mapType = mapSettings.mapType
+        
+        mapView.removeAnnotations(mapView.annotations)
 
         for var satellite in satellites
         {
-            var coords : GeoCoords = calculateGeoCoords(inSatellite: satellite)
+            var coords : GeoCoords = calculateGeoCoords(inSatellite: satellite, inTime: time)
             var newAnnotation : MKPointAnnotation = MKPointAnnotation(__coordinate: CLLocationCoordinate2D(latitude: coords.latitude, longitude: coords.longitude), title: coords.name, subtitle: nil)
             mapView.addAnnotation(newAnnotation)
         }
@@ -104,15 +118,30 @@ struct MyMapView : UIViewRepresentable
     
     func updateUIView(_ uiView: MKMapView, context: Context)
     {
-        uiView.setRegion(region, animated: true)
+        if (mapSettings.region != nil)
+        {
+            uiView.setRegion(mapSettings.region!, animated: true)
+            mapSettings.region = nil
+        }
         uiView.mapType = mapSettings.mapType
         
+        uiView.removeAnnotations(uiView.annotations)
+
         for var satellite in satellites
         {
-            var coords : GeoCoords = calculateGeoCoords(inSatellite: satellite)
-            var newAnnotation : MKPointAnnotation = MKPointAnnotation(__coordinate: CLLocationCoordinate2D(latitude: coords.latitude, longitude: coords.longitude), title: coords.name, subtitle: nil)
-            uiView.addAnnotation(newAnnotation)
+            if (satellite.isFavorite)
+            {
+                //uiView.remove
+                var coords : GeoCoords = calculateGeoCoords(inSatellite: satellite, inTime: time)
+                var newAnnotation : MKPointAnnotation = MKPointAnnotation(__coordinate: CLLocationCoordinate2D(latitude: coords.latitude, longitude: coords.longitude), title: coords.name, subtitle: nil)
+                uiView.addAnnotation(newAnnotation)
+            }
         }
+    }
+    
+    func refresh()
+    {
+        updateView += 1
     }
 }
 
@@ -136,13 +165,14 @@ struct ContentView: View
 {
     @Environment(\.managedObjectContext) var objContext
     @FetchRequest(entity: Satellite.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Satellite.name, ascending: true)])
-        var satellites : FetchedResults<Satellite>
+    var satellites : FetchedResults<Satellite>
     
-    @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 34.048927, longitude: -111.093735), span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5))
+    @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 34.048927, longitude: -111.093735), span: MKCoordinateSpan(latitudeDelta: 10, longitudeDelta: 10))
     @ObservedObject var mapSettings = MyMapViewSettings()
     @State var mapType : MKMapType = .standard
     
-    //@State private var satellites : [Satellite] = []
+    @State var brightSatellites : [SatelliteSelect] = []
+    @State var gpsSatellites : [SatelliteSelect] = []
     
     /*
      https://celestrak.org/NORAD/elements/gp.php?<QUERY>=<VALUE>&FORMAT=JSON-PRETTY
@@ -154,19 +184,17 @@ struct ContentView: View
      SPECIAL: Special data sets for the GEO Protected Zone (GPZ) or GPZ Plus.
      */
     // data structure that store news objects from google news
-    @State var gQuery : String = "NAME="
-    @State var gValue : String = ""
+    @State var queryType : String = "NAME"
+    @State var value : String = ""
+    @State var time : Date = Date.now
     
-    init(/*_ name : String, _ text : Binding<String>*/)
+    let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
+        
+    func addSatelliteName()
     {
-        //Test!
-    }
-    
-    func addSatellite()
-    {
-        let urlAsString : String = "https://celestrak.org/NORAD/elements/gp.php?" + gQuery + gValue + "&FORMAT=TLE"
-        let testURL : String = "https://celestrak.org/NORAD/elements/gp.php?NAME=MICROSAT-R&FORMAT=TLE"
-        let url = URL(string: urlAsString)!
+        let nameUrl : String = "https://celestrak.org/NORAD/elements/gp.php?NAME=" + value + "&FORMAT=TLE"
+        
+        var url = URL(string: nameUrl)!
         let urlSession = URLSession.shared
         
         // stringQuery is a new task that will run separately to the main thread
@@ -194,9 +222,101 @@ struct ContentView: View
                         newSatellite.name = name
                         newSatellite.tleLine1 = line1
                         newSatellite.tleLine2 = line2
-                        newSatellite.age = Date()
+                        newSatellite.age = Date.now
                         
                         try? objContext.save()
+                    }
+                }
+            }
+        })
+        // resume() tells the task to start running on its own thread
+        stringQuery.resume()
+    }
+    
+    func addSatelliteBrightest()
+    {
+        let brightestUrl : String = "https://celestrak.org/NORAD/elements/gp.php?GROUP=visual&FORMAT=tle"
+
+        var url = URL(string: brightestUrl)!
+        let urlSession = URLSession.shared
+        
+        // stringQuery is a new task that will run separately to the main thread
+        let stringQuery = urlSession.dataTask(with: url, completionHandler:
+        {
+            data, response, error -> Void in
+            if (error != nil)
+            {
+                print(error!.localizedDescription)
+            }
+
+            DispatchQueue.main.async {
+                let tleString : String = String(decoding: data!, as: UTF8.self)
+                let linesX3 = tleString.split(separator: "\r\n")
+                
+                brightSatellites.removeAll()
+                
+                for i in stride(from: 0, to: linesX3.count-1, by: 3)
+                {
+                    let name : String = String(linesX3[i+0]).trimmingCharacters(in: .whitespaces)
+                    let line1 : String = String(linesX3[i+1]).trimmingCharacters(in: .whitespaces)
+                    let line2 : String = String(linesX3[i+2]).trimmingCharacters(in: .whitespaces)
+                    
+                    let isUnique : Bool = ((satellites.first(where: {$0.wrappedName == name})) == nil)
+                    if (isUnique)
+                    {
+                        var newSatellite : SatelliteSelect = SatelliteSelect()
+                        newSatellite.name = name
+                        newSatellite.tle1 = line1
+                        newSatellite.tle2 = line2
+                        newSatellite.age = Date.now
+                        
+                        brightSatellites.append(newSatellite)
+                    }
+                }
+            }
+        })
+        // resume() tells the task to start running on its own thread
+        stringQuery.resume()
+    }
+    
+    func addSatelliteGPS()
+    {
+        let gpsUrl : String = "https://celestrak.org/NORAD/elements/gp.php?GROUP=gps-ops&FORMAT=tle"
+
+        var url = URL(string: gpsUrl)!
+        let urlSession = URLSession.shared
+        
+        // stringQuery is a new task that will run separately to the main thread
+        let stringQuery = urlSession.dataTask(with: url, completionHandler:
+        {
+            data, response, error -> Void in
+            if (error != nil)
+            {
+                print(error!.localizedDescription)
+            }
+
+            DispatchQueue.main.async {
+                let tleString : String = String(decoding: data!, as: UTF8.self)
+                let linesX3 = tleString.split(separator: "\r\n")
+                
+                gpsSatellites.removeAll()
+                
+                for i in stride(from: 0, to: linesX3.count-1, by: 3)
+                {
+                    let name : String = String(linesX3[i+0]).trimmingCharacters(in: .whitespaces)
+                    let line1 : String = String(linesX3[i+1]).trimmingCharacters(in: .whitespaces)
+                    let line2 : String = String(linesX3[i+2]).trimmingCharacters(in: .whitespaces)
+                    
+                    let isUnique : Bool = ((satellites.first(where: {$0.wrappedName == name})) == nil)
+                    if (isUnique)
+                    {
+                        var newSatellite : SatelliteSelect = SatelliteSelect()
+                        newSatellite.name = name
+                        newSatellite.tle1 = line1
+                        newSatellite.tle2 = line2
+                        newSatellite.age = Date.now
+                        
+                        gpsSatellites.append(newSatellite)
                     }
                 }
             }
@@ -211,108 +331,245 @@ struct ContentView: View
         {
             List
             {
-                Section()
+                Picker("Map Style", selection: $mapType)
                 {
-                    Picker("Map Style", selection: $mapType)
-                    {
-                        Text("Standard").tag(MKMapType.standard)
-                        Text("Satellite").tag(MKMapType.satellite)
-                        Text("Hybrid").tag(MKMapType.hybrid)
-                    }
-                    .pickerStyle(.segmented)
-                    .onChange(of: mapType, perform:
-                    {
-                        newMapType in
-                        mapSettings.mapType = newMapType
-                    })
-                    
-                    MyMapView(satellites: _satellites, region: $region)
-                    .environmentObject(mapSettings)
-                    .frame(width: 400, height: 300)
+                    Text("Standard").tag(MKMapType.standard)
+                    Text("Satellite").tag(MKMapType.satellite)
+                    Text("Hybrid").tag(MKMapType.hybrid)
                 }
-                
-                Section()
+                .pickerStyle(.segmented)
+                .onChange(of: mapType, perform:
                 {
-                    ScrollView(.horizontal, showsIndicators: true)
-                    {
-                        HStack{
-                            ForEach(satellites)
+                    newMapType in
+                    mapSettings.mapType = newMapType
+                })
+                
+                MyMapView(satellites: _satellites, region: $region, time: $time)
+                .environmentObject(mapSettings)
+                .frame(width: 400, height: 300)
+                .onReceive(timer)
+                {
+                    _ in
+                    time = Date.now
+                }
+
+                ScrollView(.horizontal, showsIndicators: true)
+                {
+                    HStack{
+                        ForEach(satellites)
+                        {
+                            satellite in
+                            let coords : GeoCoords = calculateGeoCoords(inSatellite: satellite, inTime: time)
+                            if (satellite.isFavorite)
                             {
-                                satellite in
-                                if (satellite.isFavorite)
+                                VStack
                                 {
-                                    VStack
-                                    {
-                                        Text(satellite.wrappedName).font(.system(size:12))
-                                        
-                                        /*
-                                         Text(String(location.mCoordinate.latitude)).font(.system(size:10))
-                                         Text(String(location.mCoordinate.longitude)).font(.system(size:10))
-                                         */
-                                        /*
-                                         NavigationLink(destination: DetailView(region: $region, mapType: $mapType, location: location)
-                                         .environmentObject(mapSettings))
-                                         {
-                                         Text("Search Location")
-                                         }
-                                         .onTapGesture
-                                         {
-                                         //region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: location.mCoordinate.latitude, longitude: location.mCoordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 7, longitudeDelta: 7))
-                                         //region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: location.mCoordinate.latitude, longitude: location.mCoordinate.longitude), span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5))
-                                         }
-                                         */
-                                    }
-                                    .padding()
-                                    .background(Color.blue.opacity(0.5))
-                                    .cornerRadius(10)
-                                    .padding()
+                                    Text(satellite.wrappedName).font(.system(size:12))
+                                    Text("Latitude: " + String(coords.latitude)).font(.system(size:10))
+                                    Text("Longitude: " + String(coords.longitude)).font(.system(size:10))
+                                    Text("Altitude: " + String(coords.altitude)).font(.system(size:10))
                                 }
-                                
+                                .padding()
+                                .background(Color.blue.opacity(0.5))
+                                .cornerRadius(10)
+                                .onTapGesture
+                                {
+                                    mapSettings.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: coords.latitude, longitude: coords.longitude), span: MKCoordinateSpan(latitudeDelta: 7, longitudeDelta: 7))
+                                    mapSettings.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: coords.latitude, longitude: coords.longitude), span: MKCoordinateSpan(latitudeDelta: 10, longitudeDelta: 10))
+                                }
                             }
                         }
                     }
                 }
                 
-                Section()
+                Picker("Search By: ", selection: $queryType)
                 {
-                    Picker("Query Type", selection: $gQuery)
-                    {
-                        Text("Name").tag("NAME=")
-                        Text("International Designator").tag("INTDES=")
-                        Text("Group").tag("GROUP=")
-                        Text("Catalog Number").tag("CATNR=")
-                    }
-                    .pickerStyle(.segmented)
-                    
+                    Text("Name").tag("NAME")
+                    Text("Brightest").tag("BRIGHTEST")
+                    Text("GPS").tag("GPS")
+                }
+                .pickerStyle(.segmented)
+                /*
+                .onChange(of: queryType, perform:
+                {
+                    newQueryType in
+                    queryType = newQueryType
+                })
+                 */
+                
+                switch queryType
+                {
+                case "NAME":
                     HStack
                     {
-                        Text("Add Satellite:")
-                        TextField("Value", text: $gValue)
+                        Text("Satellite Name:")
+                        TextField("Name", text: $value)
                     }
                     Button("Add")
                     {
-                        addSatellite()
+                        addSatelliteName()
                     }
+                    
+                case "BRIGHTEST":
+                    NavigationLink(destination: AddListView(inList: $brightSatellites).onAppear(perform: {
+                        self.addSatelliteBrightest()
+                    }))
+                    {
+                        Text("Search Brightest")
+                    }
+                    
+                case "GPS":
+                    NavigationLink(destination: AddListView(inList: $gpsSatellites).onAppear(perform: {
+                        self.addSatelliteGPS()
+                    }))
+                    {
+                        Text("Search GPS")
+                    }
+                    
+                default:
+                    Text("Something went wrong.")
                 }
                 
-                Section()
+                NavigationLink(destination: ListView(time: $time))
                 {
-                    NavigationLink(destination: ListView(/*satellites: satellites*/))
-                    {
-                        Text("List Satellites")
-                    }
+                    Text("List Satellites")
                 }
             }
-            .navigationTitle("Map")
-            .listStyle(.grouped)
         }
+        .navigationTitle("Map")
+        .listStyle(.grouped)
     } // NavigationView
 }
 
+/*
+struct MultipleSelectionList: View {
+    @State var items: [String] = ["Apples", "Oranges", "Bananas", "Pears", "Mangos", "Grapefruit"]
+    @State var selections: [String] = []
+
+    var body: some View {
+        List {
+            ForEach(self.items, id: \.self) { item in
+                MultipleSelectionRow(title: item, isSelected: self.selections.contains(item)) {
+                    if self.selections.contains(item) {
+                        self.selections.removeAll(where: { $0 == item })
+                    }
+                    else {
+                        self.selections.append(item)
+                    }
+                }
+            }
+        }
+    }
+}
+ 
+ struct MultipleSelectionRow: View {
+     var title: String
+     var isSelected: Bool
+     var action: () -> Void
+
+     var body: some View {
+         Button(action: self.action) {
+             HStack {
+                 Text(self.title)
+                 if self.isSelected {
+                     Spacer()
+                     Image(systemName: "checkmark")
+                 }
+             }
+         }
+     }
+ }
+ */
+
+struct MultipleSelectionRow: View
+{
+    var name : String
+    var isSelected : Bool
+    var action: () -> Void
+
+    var body: some View
+    {
+        Button(action: self.action)
+        {
+            HStack
+            {
+                Text(self.name)
+                Spacer()
+                if self.isSelected
+                {
+                    Image("GreenCircle")
+                    .resizable().aspectRatio(contentMode: .fit).frame(maxWidth: 20, maxHeight: 20)
+                }
+                else
+                {
+                    Image("GrayCircle")
+                    .resizable().aspectRatio(contentMode: .fit).frame(maxWidth: 20, maxHeight: 20)
+                }
+            }
+        }
+    }
+}
+
+struct AddListView: View
+{
+    @Environment(\.managedObjectContext) var objContext
+    @FetchRequest(entity: Satellite.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Satellite.name, ascending: true)]) var satellites : FetchedResults<Satellite>
+    @Binding var inList : [SatelliteSelect]
+    @State var selectedList : [SatelliteSelect] = []
+    
+    var body: some View
+    {
+        List
+        {
+            ForEach(inList, id: \.self)
+            {
+                satellite in
+                MultipleSelectionRow(name: satellite.name, isSelected:  selectedList.contains(satellite))
+                {
+                    if selectedList.contains(satellite)
+                    {
+                        selectedList.removeAll(where: { $0 == satellite })
+                    }
+                    else
+                    {
+                        selectedList.append(satellite)
+                    }
+                }
+            }
+        }
+        .onAppear(perform: {selectedList = []})
+        .listStyle(GroupedListStyle())
+        .navigationBarTitle("Select Satellites to Add", displayMode: .inline)
+        .navigationBarItems(trailing:
+            Button(action:
+            {
+                for selected in selectedList
+                {
+                    let isUnique : Bool = ((satellites.first(where: {$0.wrappedName == selected.name})) == nil)
+                    if (isUnique)
+                    {
+                        var newSatellite : Satellite = Satellite(context: objContext)
+                        newSatellite.name = selected.name
+                        newSatellite.tleLine1 = selected.tle1
+                        newSatellite.tleLine2 = selected.tle2
+                        newSatellite.age = Date.now
+                        
+                        try? objContext.save()
+                    }
+                }
+            })
+            {
+                Text("OK")
+            }
+        )
+    }
+}
+    
 struct ListView: View
 {
     @Environment(\.managedObjectContext) var objContext
     @FetchRequest(entity: Satellite.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Satellite.name, ascending: true)]) var satellites : FetchedResults<Satellite>
+    @Binding var time : Date
     
     var body: some View
     {
@@ -323,6 +580,7 @@ struct ListView: View
             ForEach(satellites)
             {
                 satellite in
+                let coords : GeoCoords = calculateGeoCoords(inSatellite: satellite, inTime: time)
                 VStack
                 {
                     HStack
@@ -330,8 +588,9 @@ struct ListView: View
                         VStack
                         {
                             Text(satellite.wrappedName)
-                            //Text(String(satellite.mLongitude))
-                            //Text(String(satellite.mLatitude))
+                            Text(String(coords.longitude))
+                            Text(String(coords.latitude))
+                            Text(String(coords.altitude))
                         }
                         if (satellite.isFavorite)
                         {
@@ -340,9 +599,14 @@ struct ListView: View
                             {
                                 satellite.isFavorite.toggle()
                                 
-                                // FIXME: Make ObservableObject that refreshes automatically when modified
-                                //satellites.append(Satellite())
-                                //satellites.remove(at: satellites.count-1)
+                                do
+                                {
+                                    try objContext.save()
+                                }
+                                catch
+                                {
+                                    // error
+                                }
                             }
                         }
                         else
@@ -352,15 +616,28 @@ struct ListView: View
                             {
                                 satellite.isFavorite.toggle()
                                 
-                                // FIXME: Make ObservableObject that refreshes automatically when modified
-                                //satellites.append(Satellite())
-                                //satellites.remove(at: satellites.count-1)
+                                do
+                                {
+                                    try objContext.save()
+                                }
+                                catch
+                                {
+                                    // error
+                                }
                             }
                         }
                         Image("Trash")
                             .resizable().aspectRatio(contentMode: .fit).frame(maxWidth: 50, maxHeight: 50)                    .onTapGesture
                         {
-                            //satellites.removeAll(where: {$0.name == satellite.wrappedName})
+                            objContext.delete(satellite)
+                            do
+                            {
+                                try objContext.save()
+                            }
+                            catch
+                            {
+                                // error
+                            }
                         }
                     }
                 }
@@ -377,100 +654,101 @@ struct ContentView_Previews: PreviewProvider
         ContentView()
     }
 }
- 
-
-/*
-// Codable: Allows the object to be decoded from one representation and encoded into another.
-struct OrbitalDataJSON : Codable
-{
-    var OBJECT_NAME : String = ""
-    var OBJECT_ID : String = ""
-    var EPOCH : String = ""
-    var MEAN_MOTION : Double = 0
-    var ECCENTRICITY : Double = 0
-    var INCLINATION : Double = 0
-    var RA_OF_ASC_NODE : Double = 0
-    var ARG_OF_PERICENTER : Double = 0
-    var MEAN_ANOMALY : Double = 0
-    var EPHEMERIS_TYPE : Int = 0
-    var CLASSIFICATION_TYPE : String = ""
-    var NORAD_CAT_ID : Int = 0
-    var ELEMENT_SET_NO : Int = 0
-    var REV_AT_EPOCH : Int = 0
-    var BSTAR : Double = 0
-    var MEAN_MOTION_DOT : Double = 0
-    var MEAN_MOTION_DDOT : Double = 0
-}
-*/
-
-/*
-func getSatellite2()
-{
-    let urlAsString : String = "https://celestrak.org/NORAD/elements/gp.php?" + gQuery + gValue + "&FORMAT=JSON-PRETTY"
-    let testURL : String = "https://celestrak.org/NORAD/elements/gp.php?NAME=MICROSAT-R&FORMAT=JSON-PRETTY"
-    let url = URL(string: urlAsString)!
-    let urlSession = URLSession.shared
     
-    // jsonQuery is a new task that will run separately to the main thread
-    let jsonQuery = urlSession.dataTask(with: url, completionHandler:
-    {
-        data, response, error -> Void in
-        if (error != nil)
-        {
-            print(error!.localizedDescription)
-        }
-        
-        do {
-            let decoder = JSONDecoder()
-            // TRICKY: Note the use of [OrbitalData] result as an array
-            // as the Celestrak REST API returns JSON results in a JSON array
-            let jsonResult = try decoder.decode([OrbitalDataJSON].self, from: data!)
-            if (jsonResult != nil)
-            {
-                var orbitalData : OrbitalDataJSON = jsonResult[0]
-                var newSatellite : Satellite = Satellite()
-                
-                newSatellite.mName = orbitalData.OBJECT_NAME
-                newSatellite.mData2 = orbitalData
-                
-                // TRICKY: Calling a C routine that needs to return values using C pointers
-                // In SwiftUI, we simulate C pointers using UnsafeMutablePointer<>
-                var age : Double = 0
-                var ageP : UnsafeMutablePointer<Double> = .init(&age)
-                var lat : Double = 0
-                var latP : UnsafeMutablePointer<Double> = .init(&lat)
-                var lon : Double = 0
-                var lonP : UnsafeMutablePointer<Double> = .init(&lon)
-                var alt : Double = 0
-                var altP : UnsafeMutablePointer<Double> = .init(&alt)
-                
-                // TRICKY: Call C function here using the SwiftUI binding header decl.
-                orbit_to_lla(nil, nil, nil, ageP, latP, lonP, altP)
-                newSatellite.mLatitude = lat
-                newSatellite.mLongitude = lon
-                
-                var isUnique : Bool = ((satellites.first(where: {$0.mName == newSatellite.mName})) == nil)
-                if (isUnique)
-                {
-                    satellites.append(newSatellite)
-                }
-            }
-        } catch DecodingError.dataCorrupted(let context) {
-            print(context)
-        } catch DecodingError.keyNotFound(let key, let context) {
-            print("Key '\(key)' not found:", context.debugDescription)
-            print("codingPath:", context.codingPath)
-        } catch DecodingError.valueNotFound(let value, let context) {
-            print("Value '\(value)' not found:", context.debugDescription)
-            print("codingPath:", context.codingPath)
-        } catch DecodingError.typeMismatch(let type, let context) {
-            print("Type '\(type)' mismatch:", context.debugDescription)
-            print("codingPath:", context.codingPath)
-        } catch {
-            print("error: ", error)
-        }
-    })
-    // resume() tells the task to start running on its own thread
-    jsonQuery.resume()
-}
-*/
+    
+    /*
+     // Codable: Allows the object to be decoded from one representation and encoded into another.
+     struct OrbitalDataJSON : Codable
+     {
+     var OBJECT_NAME : String = ""
+     var OBJECT_ID : String = ""
+     var EPOCH : String = ""
+     var MEAN_MOTION : Double = 0
+     var ECCENTRICITY : Double = 0
+     var INCLINATION : Double = 0
+     var RA_OF_ASC_NODE : Double = 0
+     var ARG_OF_PERICENTER : Double = 0
+     var MEAN_ANOMALY : Double = 0
+     var EPHEMERIS_TYPE : Int = 0
+     var CLASSIFICATION_TYPE : String = ""
+     var NORAD_CAT_ID : Int = 0
+     var ELEMENT_SET_NO : Int = 0
+     var REV_AT_EPOCH : Int = 0
+     var BSTAR : Double = 0
+     var MEAN_MOTION_DOT : Double = 0
+     var MEAN_MOTION_DDOT : Double = 0
+     }
+     */
+    
+    /*
+     func getSatellite2()
+     {
+     let urlAsString : String = "https://celestrak.org/NORAD/elements/gp.php?" + gQuery + gValue + "&FORMAT=JSON-PRETTY"
+     let testURL : String = "https://celestrak.org/NORAD/elements/gp.php?NAME=MICROSAT-R&FORMAT=JSON-PRETTY"
+     let url = URL(string: urlAsString)!
+     let urlSession = URLSession.shared
+     
+     // jsonQuery is a new task that will run separately to the main thread
+     let jsonQuery = urlSession.dataTask(with: url, completionHandler:
+     {
+     data, response, error -> Void in
+     if (error != nil)
+     {
+     print(error!.localizedDescription)
+     }
+     
+     do {
+     let decoder = JSONDecoder()
+     // TRICKY: Note the use of [OrbitalData] result as an array
+     // as the Celestrak REST API returns JSON results in a JSON array
+     let jsonResult = try decoder.decode([OrbitalDataJSON].self, from: data!)
+     if (jsonResult != nil)
+     {
+     var orbitalData : OrbitalDataJSON = jsonResult[0]
+     var newSatellite : Satellite = Satellite()
+     
+     newSatellite.mName = orbitalData.OBJECT_NAME
+     newSatellite.mData2 = orbitalData
+     
+     // TRICKY: Calling a C routine that needs to return values using C pointers
+     // In SwiftUI, we simulate C pointers using UnsafeMutablePointer<>
+     var age : Double = 0
+     var ageP : UnsafeMutablePointer<Double> = .init(&age)
+     var lat : Double = 0
+     var latP : UnsafeMutablePointer<Double> = .init(&lat)
+     var lon : Double = 0
+     var lonP : UnsafeMutablePointer<Double> = .init(&lon)
+     var alt : Double = 0
+     var altP : UnsafeMutablePointer<Double> = .init(&alt)
+     
+     // TRICKY: Call C function here using the SwiftUI binding header decl.
+     orbit_to_lla(nil, nil, nil, ageP, latP, lonP, altP)
+     newSatellite.mLatitude = lat
+     newSatellite.mLongitude = lon
+     
+     var isUnique : Bool = ((satellites.first(where: {$0.mName == newSatellite.mName})) == nil)
+     if (isUnique)
+     {
+     satellites.append(newSatellite)
+     }
+     }
+     } catch DecodingError.dataCorrupted(let context) {
+     print(context)
+     } catch DecodingError.keyNotFound(let key, let context) {
+     print("Key '\(key)' not found:", context.debugDescription)
+     print("codingPath:", context.codingPath)
+     } catch DecodingError.valueNotFound(let value, let context) {
+     print("Value '\(value)' not found:", context.debugDescription)
+     print("codingPath:", context.codingPath)
+     } catch DecodingError.typeMismatch(let type, let context) {
+     print("Type '\(type)' mismatch:", context.debugDescription)
+     print("codingPath:", context.codingPath)
+     } catch {
+     print("error: ", error)
+     }
+     })
+     // resume() tells the task to start running on its own thread
+     jsonQuery.resume()
+     }
+     */
+
