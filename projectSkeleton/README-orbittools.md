@@ -1,4 +1,59 @@
-# NOTES ON HOW TO INTEGRATE CELESTRAK SOURCE
+# NOTES ON HOW TO INTEGRATE ORBITTOOLS SOURCE
+
+Matthew Fitzgerald 11/23/2022
+
+TROUBLE: Had to abandon celestrak because I could never get the `rv2coe()` function to work. 
+The Celestrak function `SGP4Funcs::rv2coe()` does not support calculations for `double &arglat, double &truelon, double &lonper`. 
+This means that no matter what satellite was called, the return value for latitude and longitude information would be `#define undefined 999999.1`.
+This problem persisted even in the Celestrak example tests.
+
+Switched to orbittools library from zeptomoby (written in C++).
+The unit tests in orbittools produced the correct results, so I have decided to utilize orbittools.
+Example usage (From their demo program): 
+```
+{
+    // Test SGP4 TLE data
+   string str1 = "SGP4 Test";
+   string str2 = "1 88888U          80275.98708465  .00073094  13844-3  66816-4 0     8";
+   string str3 = "2 88888  72.8435 115.9689 0086731  52.6988 110.5714 16.05824518   105";
+
+    // Create a TLE object using the data above
+   cTle tleSDP4(str1, str2, str3);
+
+   // Create a satellite object from the TLE object
+   cSatellite satSDP4(tleSDP4);
+
+   // Print the position and velocity information of the satellite
+   PrintPosVel(satSDP4);
+
+   printf("Example output:\n");
+
+   // Example: Define a location on the earth, then determine the look-angle
+   // to the SDP4 satellite defined above.
+
+   // Get the location of the satellite. The earth-centered inertial (ECI)
+   // information is placed into eciSDP4.
+   // Here we ask for the location of the satellite 90 minutes after
+   // the TLE epoch.
+   cEciTime eciSDP4 = satSDP4.PositionEci(90.0);
+
+   // Now create a site object. Site objects represent a location on the 
+   // surface of the earth. Here we arbitrarily select a point on the
+   // equator.
+   cSite siteEquator(0.0, -100.0, 0); // 0.00 N, 100.00 W, 0 km altitude
+
+   // Now get the "look angle" from the site to the satellite. 
+   // Note that the ECI object "eciSDP4" contains a time associated
+   // with the coordinates it contains; this is the time at which
+   // the look angle is valid.
+   cTopo topoLook = siteEquator.GetLookAngle(eciSDP4);
+
+   // Print out the results.
+   printf("AZ: %.3f  EL: %.3f\n", 
+          topoLook.AzimuthDeg(),
+          topoLook.ElevationDeg());
+}
+```
 
 Matthew Fitzgerald 11/14/2022
 

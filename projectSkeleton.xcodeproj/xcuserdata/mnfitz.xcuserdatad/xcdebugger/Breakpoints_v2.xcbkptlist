@@ -222,8 +222,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "166"
             endingLineNumber = "166"
-            landmarkName = "satellites"
-            landmarkType = "24">
+            landmarkName = "ContentView"
+            landmarkType = "14">
             <Locations>
                <Location
                   uuid = "055F3E68-2AC0-48ED-8FFE-754BB22A2EF1 - 1a1f05a8661bba16"
@@ -302,8 +302,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "92"
             endingLineNumber = "92"
-            landmarkName = "satellites"
-            landmarkType = "24">
+            landmarkName = "MyMapView"
+            landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -582,8 +582,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "570"
             endingLineNumber = "570"
-            landmarkName = "satellites"
-            landmarkType = "24">
+            landmarkName = "ListView"
+            landmarkType = "14">
             <Locations>
                <Location
                   uuid = "C9E9B37A-662B-400F-8CF2-6F46812C9700 - baf18832b9e4b93b"
