@@ -28,8 +28,7 @@ This project was assigned as a final project for CSE 335. It was required that t
 <img width="931" alt="Application in Action" class="center" src="https://user-images.githubusercontent.com/79553911/209892428-75c724f8-9416-4422-ac9c-9f43a8cdb789.mov">
 </p>
 
-
-### Prerequisites
+## Prerequisites
 - Download XCode
 <!-- LICENSE -->
 ### License
