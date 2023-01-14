@@ -163,6 +163,9 @@ class PersistentData : ObservableObject
 
 struct ContentView: View
 {
+    
+    @Environment(\.scenePhase) var scenePhase
+    
     @Environment(\.managedObjectContext) var objContext
     @FetchRequest(entity: Satellite.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Satellite.name, ascending: true)])
     var satellites : FetchedResults<Satellite>
@@ -433,6 +436,16 @@ struct ContentView: View
                 NavigationLink(destination: ListView(time: $time))
                 {
                     Text("List Satellites")
+                }
+            }
+            .onChange(of: scenePhase) { newPhase in
+                switch newPhase {
+                    case .inactive:
+                        print("inactive")
+                    case .active:
+                        print("active")
+                    case .background:
+                        print("background")
                 }
             }
         }
