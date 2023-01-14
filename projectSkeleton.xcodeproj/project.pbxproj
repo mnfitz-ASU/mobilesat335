@@ -31,6 +31,9 @@
 		BEA939F82906506E008A835D /* projectSkeletonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA939F72906506E008A835D /* projectSkeletonTests.swift */; };
 		BEA93A022906506E008A835D /* projectSkeletonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA93A012906506E008A835D /* projectSkeletonUITests.swift */; };
 		BEA93A042906506E008A835D /* projectSkeletonUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA93A032906506E008A835D /* projectSkeletonUITestsLaunchTests.swift */; };
+		BEE69C502973372E002BA186 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE69C4F2973372E002BA186 /* ListView.swift */; };
+		BEE69C5229733855002BA186 /* AddListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE69C5129733855002BA186 /* AddListView.swift */; };
+		BEE69C5429733909002BA186 /* MultipleSelectionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE69C5329733909002BA186 /* MultipleSelectionRowView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +100,9 @@
 		BEA93A012906506E008A835D /* projectSkeletonUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = projectSkeletonUITests.swift; sourceTree = "<group>"; };
 		BEA93A032906506E008A835D /* projectSkeletonUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = projectSkeletonUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		BEC2AA1C29294CD0009FAE5F /* projectSkeleton-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "projectSkeleton-Bridging-Header.h"; sourceTree = "<group>"; };
+		BEE69C4F2973372E002BA186 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		BEE69C5129733855002BA186 /* AddListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddListView.swift; sourceTree = "<group>"; };
+		BEE69C5329733909002BA186 /* MultipleSelectionRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSelectionRowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,6 +224,9 @@
 				BE79980F29219C13007F7CBB /* orbittools */,
 				BEA939E629065069008A835D /* projectSkeletonApp.swift */,
 				BEA939E829065069008A835D /* ContentView.swift */,
+				BEE69C5329733909002BA186 /* MultipleSelectionRowView.swift */,
+				BEE69C4F2973372E002BA186 /* ListView.swift */,
+				BEE69C5129733855002BA186 /* AddListView.swift */,
 				BEA939EA2906506E008A835D /* Assets.xcassets */,
 				BEA939EC2906506E008A835D /* Preview Content */,
 			);
@@ -390,8 +399,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE97AA11292AED2F00350CF5 /* CSE335.projectSkeleton.Satellite.xcdatamodeld in Sources */,
+				BEE69C502973372E002BA186 /* ListView.swift in Sources */,
 				BE143C19292952B000426418 /* cNoradSGP4.cpp in Sources */,
 				BE143C24292952B000426418 /* coord.cpp in Sources */,
+				BEE69C5429733909002BA186 /* MultipleSelectionRowView.swift in Sources */,
+				BEE69C5229733855002BA186 /* AddListView.swift in Sources */,
 				BE143C28292952B000426418 /* cVector.cpp in Sources */,
 				BE143C1D292952B000426418 /* cNoradSDP4.cpp in Sources */,
 				BE143C18292952B000426418 /* cNoradBase.cpp in Sources */,
