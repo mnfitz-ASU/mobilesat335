@@ -23,22 +23,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "03E34FDF-2A63-4F18-B962-DBE598D82306"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "projectSkeleton/ContentView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "215"
-            endingLineNumber = "215"
-            landmarkName = "addSatelliteName()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "12FAE338-1B92-4E37-8C49-2230F508EB30"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -124,8 +108,8 @@
             filePath = "projectSkeleton/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "364"
-            endingLineNumber = "364"
+            startingLineNumber = "424"
+            endingLineNumber = "424"
             landmarkName = "ContentView"
             landmarkType = "14">
          </BreakpointContent>
@@ -204,8 +188,8 @@
             filePath = "projectSkeleton/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
+            startingLineNumber = "258"
+            endingLineNumber = "258"
             landmarkName = "addSatelliteName()"
             landmarkType = "7">
          </BreakpointContent>
@@ -564,8 +548,8 @@
             filePath = "projectSkeleton/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "333"
-            endingLineNumber = "333"
+            startingLineNumber = "393"
+            endingLineNumber = "393"
             landmarkName = "ContentView"
             landmarkType = "14">
          </BreakpointContent>
@@ -580,8 +564,8 @@
             filePath = "projectSkeleton/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "459"
-            endingLineNumber = "459"
+            startingLineNumber = "513"
+            endingLineNumber = "513"
             landmarkName = "ContentView_Previews"
             landmarkType = "14">
          </BreakpointContent>
@@ -692,8 +676,8 @@
             filePath = "projectSkeleton/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "370"
-            endingLineNumber = "370"
+            startingLineNumber = "430"
+            endingLineNumber = "430"
             landmarkName = "ContentView"
             landmarkType = "14">
          </BreakpointContent>
@@ -708,8 +692,8 @@
             filePath = "projectSkeleton/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "356"
-            endingLineNumber = "356"
+            startingLineNumber = "416"
+            endingLineNumber = "416"
             landmarkName = "ContentView"
             landmarkType = "14">
          </BreakpointContent>
@@ -724,8 +708,8 @@
             filePath = "projectSkeleton/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "433"
-            endingLineNumber = "433"
+            startingLineNumber = "486"
+            endingLineNumber = "486"
             landmarkName = "ContentView"
             landmarkType = "14">
          </BreakpointContent>
@@ -740,8 +724,8 @@
             filePath = "projectSkeleton/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "270"
-            endingLineNumber = "270"
+            startingLineNumber = "330"
+            endingLineNumber = "330"
             landmarkName = "addSatelliteBrightest()"
             landmarkType = "7">
          </BreakpointContent>
@@ -756,8 +740,8 @@
             filePath = "projectSkeleton/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "268"
-            endingLineNumber = "268"
+            startingLineNumber = "328"
+            endingLineNumber = "328"
             landmarkName = "addSatelliteBrightest()"
             landmarkType = "7">
          </BreakpointContent>
@@ -772,8 +756,8 @@
             filePath = "projectSkeleton/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "241"
-            endingLineNumber = "241"
+            startingLineNumber = "301"
+            endingLineNumber = "301"
             landmarkName = "addSatelliteBrightest()"
             landmarkType = "7">
          </BreakpointContent>

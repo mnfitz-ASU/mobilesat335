@@ -31,7 +31,7 @@ extension Satellite
     public var wrappedTleLine1 : String {tleLine1 ?? ""}
     public var wrappedTleLine2 : String {tleLine2 ?? ""}
     public var wrappedIsFavorite : Bool {isFavorite}
-    public var wrappedAge : Date {age ?? Date()}
+    public var wrappedDate : Date {date ?? Date()-86400}
 }
 
 struct SatelliteSelect : Identifiable, Hashable
@@ -39,7 +39,7 @@ struct SatelliteSelect : Identifiable, Hashable
     var name : String = ""
     var tle1 : String = ""
     var tle2 : String = ""
-    var age : Date = Date.now
+    var date : Date = Date.now
     var isSelected : Bool = false
     var id : UUID = UUID()
 }
@@ -192,7 +192,67 @@ struct ContentView: View
     @State var time : Date = Date.now
     
     let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
-        
+    
+    func updateSatellites()
+    {
+        var wasUpdated : Bool = false
+        repeat
+        {
+            wasUpdated = false
+            for var satellite in satellites
+            {
+                if (satellite.wrappedDate.addingTimeInterval(86400) <= Date.now)
+                {
+                    wasUpdated = true
+                    print("Satellite: " + satellite.wrappedName + " has expired")
+                    var isFavorite = satellite.wrappedIsFavorite
+                    var name = satellite.wrappedName
+                    
+                    let nameUrl : String = "https://celestrak.org/NORAD/elements/gp.php?NAME=" + name + "&FORMAT=TLE"
+                    
+                    var url = URL(string: nameUrl)!
+                    let urlSession = URLSession.shared
+                    
+                    // stringQuery is a new task that will run separately to the main thread
+                    let stringQuery = urlSession.dataTask(with: url, completionHandler:
+                                                            {
+                        data, response, error -> Void in
+                        if (error != nil)
+                        {
+                            print(error!.localizedDescription)
+                        }
+                        
+                        DispatchQueue.main.async {
+                            let tleString : String = String(decoding: data!, as: UTF8.self)
+                            let lines = tleString.split(separator: "\r\n")
+                            if (lines.count == 3)
+                            {
+                                let name : String = String(lines[0]).trimmingCharacters(in: .whitespaces)
+                                let line1 : String = String(lines[1]).trimmingCharacters(in: .whitespaces)
+                                let line2 : String = String(lines[2]).trimmingCharacters(in: .whitespaces)
+                                
+                                satellite.name = name
+                                satellite.tleLine1 = line1
+                                satellite.tleLine2 = line2
+                                satellite.date = Date.now
+                                satellite.isFavorite = isFavorite
+                                
+                                try? objContext.save()
+                                
+                            }
+                        }
+                    })
+                    // resume() tells the task to start running on its own thread
+                    stringQuery.resume()
+                }
+                if (wasUpdated)
+                {
+                    break
+                }
+            }
+        } while (wasUpdated == true)
+    }
+    
     func addSatelliteName()
     {
         let nameUrl : String = "https://celestrak.org/NORAD/elements/gp.php?NAME=" + value + "&FORMAT=TLE"
@@ -225,7 +285,7 @@ struct ContentView: View
                         newSatellite.name = name
                         newSatellite.tleLine1 = line1
                         newSatellite.tleLine2 = line2
-                        newSatellite.age = Date.now
+                        newSatellite.date = Date.now
                         
                         try? objContext.save()
                     }
@@ -271,7 +331,7 @@ struct ContentView: View
                         newSatellite.name = name
                         newSatellite.tle1 = line1
                         newSatellite.tle2 = line2
-                        newSatellite.age = Date.now
+                        newSatellite.date = Date.now
                         
                         brightSatellites.append(newSatellite)
                     }
@@ -317,7 +377,7 @@ struct ContentView: View
                         newSatellite.name = name
                         newSatellite.tle1 = line1
                         newSatellite.tle2 = line2
-                        newSatellite.age = Date.now
+                        newSatellite.date = Date.now
                         
                         gpsSatellites.append(newSatellite)
                     }
@@ -392,14 +452,7 @@ struct ContentView: View
                     Text("GPS").tag("GPS")
                 }
                 .pickerStyle(.segmented)
-                /*
-                .onChange(of: queryType, perform:
-                {
-                    newQueryType in
-                    queryType = newQueryType
-                })
-                 */
-                
+
                 switch queryType
                 {
                 case "NAME":
@@ -444,6 +497,7 @@ struct ContentView: View
                         print("inactive")
                     case .active:
                         print("active")
+                        updateSatellites()
                     case .background:
                         print("background")
                 }

@@ -51,7 +51,7 @@ struct AddListView: View
                         newSatellite.name = selected.name
                         newSatellite.tleLine1 = selected.tle1
                         newSatellite.tleLine2 = selected.tle2
-                        newSatellite.age = Date.now
+                        newSatellite.date = Date.now
                         
                         try? objContext.save()
                     }
