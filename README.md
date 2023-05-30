@@ -7,16 +7,21 @@
     <a href="https://discord.gg/sKXHzHpq">
         <img src="https://img.shields.io/discord/308323056592486420?logo=discord"
             alt="chat on Discord"></a>
-    -->
+    --
     <a href="https://github.com/mnfitz-ASU/mnfitz-ASU/graphs/contributors" alt="Contributors">
         <img src="https://img.shields.io/github/contributors/mnfitz-ASU/mnfitz-ASU" /></a>    
     <a href="https://www.linkedin.com/in/matthew-n-fitzgerald/">
         <img src="https://img.shields.io/badge/-matthewf-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/matthew-n-fitzgerald/"
             alt="follow on Linkedin"></a>
+    -->
 </p>
 
-
 # mobilesat335
+
+[![Test](https://img.shields.io/badge/Language-SwiftUI-green)]()
+[![Test](https://img.shields.io/github/contributors/mnfitz-ASU/mnfitz-ASU)](https://github.com/mnfitz-ASU/mnfitz-ASU/graphs/contributors)
+[![Test](https://img.shields.io/badge/-matthewf-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/matthew-n-fitzgerald/)](https://www.linkedin.com/in/matthew-n-fitzgerald/)
+
 Final Project for CSE 335
 - Idea: Make a mobile IOS app utilizing 2 APIs and a database to demonstrate proficiency in mobile development.
 
