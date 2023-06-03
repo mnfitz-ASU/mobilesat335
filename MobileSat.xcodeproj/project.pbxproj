@@ -1,0 +1,766 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BE143C18292952B000426418 /* cNoradBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143BF7292952B000426418 /* cNoradBase.cpp */; };
+		BE143C19292952B000426418 /* cNoradSGP4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143BF8292952B000426418 /* cNoradSGP4.cpp */; };
+		BE143C1A292952B000426418 /* cOrbit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143BF9292952B000426418 /* cOrbit.cpp */; };
+		BE143C1B292952B000426418 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143BFA292952B000426418 /* stdafx.cpp */; };
+		BE143C1C292952B000426418 /* cSatellite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143BFB292952B000426418 /* cSatellite.cpp */; };
+		BE143C1D292952B000426418 /* cNoradSDP4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143BFC292952B000426418 /* cNoradSDP4.cpp */; };
+		BE143C1E292952B000426418 /* cJulian.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143BFE292952B000426418 /* cJulian.cpp */; };
+		BE143C1F292952B000426418 /* cTLE.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143C01292952B000426418 /* cTLE.cpp */; };
+		BE143C21292952B000426418 /* globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143C07292952B000426418 /* globals.cpp */; };
+		BE143C22292952B000426418 /* cEci.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143C08292952B000426418 /* cEci.cpp */; };
+		BE143C23292952B000426418 /* cSite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143C09292952B000426418 /* cSite.cpp */; };
+		BE143C24292952B000426418 /* coord.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143C0A292952B000426418 /* coord.cpp */; };
+		BE143C25292952B000426418 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143C0B292952B000426418 /* stdafx.cpp */; };
+		BE143C28292952B000426418 /* cVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143C12292952B000426418 /* cVector.cpp */; };
+		BE143C29292952B000426418 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = BE143C13292952B000426418 /* readme.txt */; };
+		BE143C2D2929598A00426418 /* orbittools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143C2B2929598A00426418 /* orbittools.cpp */; };
+		BE65CAB12A2BE70100D1C245 /* CSE335.MobileSat.Satellite.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BE65CAAF2A2BE70100D1C245 /* CSE335.MobileSat.Satellite.xcdatamodeld */; };
+		BE65CAB22A2BE70100D1C245 /* CSE335.MobileSat.Satellite.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BE65CAAF2A2BE70100D1C245 /* CSE335.MobileSat.Satellite.xcdatamodeld */; };
+		BE65CAB32A2BE70100D1C245 /* CSE335.MobileSat.Satellite.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BE65CAAF2A2BE70100D1C245 /* CSE335.MobileSat.Satellite.xcdatamodeld */; };
+		BEA939E729065069008A835D /* MobileSatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA939E629065069008A835D /* MobileSatApp.swift */; };
+		BEA939E929065069008A835D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA939E829065069008A835D /* ContentView.swift */; };
+		BEA939EB2906506E008A835D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEA939EA2906506E008A835D /* Assets.xcassets */; };
+		BEA939EE2906506E008A835D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEA939ED2906506E008A835D /* Preview Assets.xcassets */; };
+		BEA939F82906506E008A835D /* MobileSatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA939F72906506E008A835D /* MobileSatTests.swift */; };
+		BEA93A022906506E008A835D /* MobileSatUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA93A012906506E008A835D /* MobileSatUITests.swift */; };
+		BEA93A042906506E008A835D /* MobileSatUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA93A032906506E008A835D /* MobileSatUITestsLaunchTests.swift */; };
+		BEE69C502973372E002BA186 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE69C4F2973372E002BA186 /* ListView.swift */; };
+		BEE69C5229733855002BA186 /* AddListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE69C5129733855002BA186 /* AddListView.swift */; };
+		BEE69C5429733909002BA186 /* MultipleSelectionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE69C5329733909002BA186 /* MultipleSelectionRowView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BEA939F42906506E008A835D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BEA939DB29065069008A835D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BEA939E229065069008A835D;
+			remoteInfo = projectSkeleton;
+		};
+		BEA939FE2906506E008A835D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BEA939DB29065069008A835D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BEA939E229065069008A835D;
+			remoteInfo = projectSkeleton;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		BE143BED292952AF00426418 /* cNoradSGP4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cNoradSGP4.h; sourceTree = "<group>"; };
+		BE143BEF292952AF00426418 /* cNoradSDP4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cNoradSDP4.h; sourceTree = "<group>"; };
+		BE143BF0292952AF00426418 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
+		BE143BF2292952AF00426418 /* cOrbit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cOrbit.h; sourceTree = "<group>"; };
+		BE143BF3292952B000426418 /* orbitLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = orbitLib.h; sourceTree = "<group>"; };
+		BE143BF5292952B000426418 /* cSatellite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cSatellite.h; sourceTree = "<group>"; };
+		BE143BF6292952B000426418 /* cNoradBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cNoradBase.h; sourceTree = "<group>"; };
+		BE143BF7292952B000426418 /* cNoradBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cNoradBase.cpp; sourceTree = "<group>"; };
+		BE143BF8292952B000426418 /* cNoradSGP4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cNoradSGP4.cpp; sourceTree = "<group>"; };
+		BE143BF9292952B000426418 /* cOrbit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cOrbit.cpp; sourceTree = "<group>"; };
+		BE143BFA292952B000426418 /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdafx.cpp; sourceTree = "<group>"; };
+		BE143BFB292952B000426418 /* cSatellite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cSatellite.cpp; sourceTree = "<group>"; };
+		BE143BFC292952B000426418 /* cNoradSDP4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cNoradSDP4.cpp; sourceTree = "<group>"; };
+		BE143BFE292952B000426418 /* cJulian.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cJulian.cpp; sourceTree = "<group>"; };
+		BE143BFF292952B000426418 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
+		BE143C00292952B000426418 /* cTLE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cTLE.h; sourceTree = "<group>"; };
+		BE143C01292952B000426418 /* cTLE.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cTLE.cpp; sourceTree = "<group>"; };
+		BE143C03292952B000426418 /* exceptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = exceptions.h; sourceTree = "<group>"; };
+		BE143C04292952B000426418 /* cVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cVector.h; sourceTree = "<group>"; };
+		BE143C05292952B000426418 /* coord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coord.h; sourceTree = "<group>"; };
+		BE143C06292952B000426418 /* globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = globals.h; sourceTree = "<group>"; };
+		BE143C07292952B000426418 /* globals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = globals.cpp; sourceTree = "<group>"; };
+		BE143C08292952B000426418 /* cEci.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cEci.cpp; sourceTree = "<group>"; };
+		BE143C09292952B000426418 /* cSite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cSite.cpp; sourceTree = "<group>"; };
+		BE143C0A292952B000426418 /* coord.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = coord.cpp; sourceTree = "<group>"; };
+		BE143C0B292952B000426418 /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdafx.cpp; sourceTree = "<group>"; };
+		BE143C0D292952B000426418 /* coreLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coreLib.h; sourceTree = "<group>"; };
+		BE143C0E292952B000426418 /* cJulian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cJulian.h; sourceTree = "<group>"; };
+		BE143C0F292952B000426418 /* cSite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cSite.h; sourceTree = "<group>"; };
+		BE143C10292952B000426418 /* cEci.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cEci.h; sourceTree = "<group>"; };
+		BE143C12292952B000426418 /* cVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cVector.cpp; sourceTree = "<group>"; };
+		BE143C13292952B000426418 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = readme.txt; path = orbitTools/readme.txt; sourceTree = "<group>"; };
+		BE143C2B2929598A00426418 /* orbittools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = orbittools.cpp; sourceTree = "<group>"; };
+		BE143C2C2929598A00426418 /* orbittools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = orbittools.h; sourceTree = "<group>"; };
+		BE65CAB02A2BE70100D1C245 /* CSE335.MobileSat.Satellite.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CSE335.MobileSat.Satellite.xcdatamodel; sourceTree = "<group>"; };
+		BEA939E329065069008A835D /* MobileSat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MobileSat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEA939E629065069008A835D /* MobileSatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileSatApp.swift; sourceTree = "<group>"; };
+		BEA939E829065069008A835D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		BEA939EA2906506E008A835D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BEA939ED2906506E008A835D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		BEA939F32906506E008A835D /* MobileSatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileSatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEA939F72906506E008A835D /* MobileSatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileSatTests.swift; sourceTree = "<group>"; };
+		BEA939FD2906506E008A835D /* MobileSatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileSatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEA93A012906506E008A835D /* MobileSatUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileSatUITests.swift; sourceTree = "<group>"; };
+		BEA93A032906506E008A835D /* MobileSatUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileSatUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		BEC2AA1C29294CD0009FAE5F /* MobileSat-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MobileSat-Bridging-Header.h"; sourceTree = "<group>"; };
+		BEE69C4F2973372E002BA186 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		BEE69C5129733855002BA186 /* AddListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddListView.swift; sourceTree = "<group>"; };
+		BEE69C5329733909002BA186 /* MultipleSelectionRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSelectionRowView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BEA939E029065069008A835D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEA939F02906506E008A835D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEA939FA2906506E008A835D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BE143BEB292952AF00426418 /* orbitTools */ = {
+			isa = PBXGroup;
+			children = (
+				BE143BEC292952AF00426418 /* orbit */,
+				BE143BFD292952B000426418 /* core */,
+				BE143C13292952B000426418 /* readme.txt */,
+			);
+			name = orbitTools;
+			path = MobileSat/zeptomoby.com/cppOrbitTools;
+			sourceTree = SOURCE_ROOT;
+		};
+		BE143BEC292952AF00426418 /* orbit */ = {
+			isa = PBXGroup;
+			children = (
+				BE143BED292952AF00426418 /* cNoradSGP4.h */,
+				BE143BEF292952AF00426418 /* cNoradSDP4.h */,
+				BE143BF0292952AF00426418 /* stdafx.h */,
+				BE143BF2292952AF00426418 /* cOrbit.h */,
+				BE143BF3292952B000426418 /* orbitLib.h */,
+				BE143BF5292952B000426418 /* cSatellite.h */,
+				BE143BF6292952B000426418 /* cNoradBase.h */,
+				BE143BF7292952B000426418 /* cNoradBase.cpp */,
+				BE143BF8292952B000426418 /* cNoradSGP4.cpp */,
+				BE143BF9292952B000426418 /* cOrbit.cpp */,
+				BE143BFA292952B000426418 /* stdafx.cpp */,
+				BE143BFB292952B000426418 /* cSatellite.cpp */,
+				BE143BFC292952B000426418 /* cNoradSDP4.cpp */,
+			);
+			name = orbit;
+			path = orbitTools/orbit;
+			sourceTree = "<group>";
+		};
+		BE143BFD292952B000426418 /* core */ = {
+			isa = PBXGroup;
+			children = (
+				BE143BFE292952B000426418 /* cJulian.cpp */,
+				BE143BFF292952B000426418 /* stdafx.h */,
+				BE143C00292952B000426418 /* cTLE.h */,
+				BE143C01292952B000426418 /* cTLE.cpp */,
+				BE143C03292952B000426418 /* exceptions.h */,
+				BE143C04292952B000426418 /* cVector.h */,
+				BE143C05292952B000426418 /* coord.h */,
+				BE143C06292952B000426418 /* globals.h */,
+				BE143C07292952B000426418 /* globals.cpp */,
+				BE143C08292952B000426418 /* cEci.cpp */,
+				BE143C09292952B000426418 /* cSite.cpp */,
+				BE143C0A292952B000426418 /* coord.cpp */,
+				BE143C0B292952B000426418 /* stdafx.cpp */,
+				BE143C0D292952B000426418 /* coreLib.h */,
+				BE143C0E292952B000426418 /* cJulian.h */,
+				BE143C0F292952B000426418 /* cSite.h */,
+				BE143C10292952B000426418 /* cEci.h */,
+				BE143C12292952B000426418 /* cVector.cpp */,
+			);
+			name = core;
+			path = orbitTools/core;
+			sourceTree = "<group>";
+		};
+		BE79980F29219C13007F7CBB /* orbittools */ = {
+			isa = PBXGroup;
+			children = (
+				BEC2AA1C29294CD0009FAE5F /* MobileSat-Bridging-Header.h */,
+				BE143C2B2929598A00426418 /* orbittools.cpp */,
+				BE143C2C2929598A00426418 /* orbittools.h */,
+				BEC2AA1D2929522C009FAE5F /* cpp */,
+			);
+			path = orbittools;
+			sourceTree = "<group>";
+		};
+		BEA939DA29065069008A835D = {
+			isa = PBXGroup;
+			children = (
+				BEA939E529065069008A835D /* MobileSat */,
+				BEA939F62906506E008A835D /* MobileSatTests */,
+				BEA93A002906506E008A835D /* MobileSatUITests */,
+				BEA939E429065069008A835D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BEA939E429065069008A835D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BEA939E329065069008A835D /* MobileSat.app */,
+				BEA939F32906506E008A835D /* MobileSatTests.xctest */,
+				BEA939FD2906506E008A835D /* MobileSatUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BEA939E529065069008A835D /* MobileSat */ = {
+			isa = PBXGroup;
+			children = (
+				BE79980F29219C13007F7CBB /* orbittools */,
+				BEA939E629065069008A835D /* MobileSatApp.swift */,
+				BEA939E829065069008A835D /* ContentView.swift */,
+				BEE69C5329733909002BA186 /* MultipleSelectionRowView.swift */,
+				BEE69C4F2973372E002BA186 /* ListView.swift */,
+				BEE69C5129733855002BA186 /* AddListView.swift */,
+				BEA939EA2906506E008A835D /* Assets.xcassets */,
+				BEA939EC2906506E008A835D /* Preview Content */,
+				BE65CAAF2A2BE70100D1C245 /* CSE335.MobileSat.Satellite.xcdatamodeld */,
+			);
+			path = MobileSat;
+			sourceTree = "<group>";
+		};
+		BEA939EC2906506E008A835D /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				BEA939ED2906506E008A835D /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		BEA939F62906506E008A835D /* MobileSatTests */ = {
+			isa = PBXGroup;
+			children = (
+				BEA939F72906506E008A835D /* MobileSatTests.swift */,
+			);
+			path = MobileSatTests;
+			sourceTree = "<group>";
+		};
+		BEA93A002906506E008A835D /* MobileSatUITests */ = {
+			isa = PBXGroup;
+			children = (
+				BEA93A032906506E008A835D /* MobileSatUITestsLaunchTests.swift */,
+				BEA93A012906506E008A835D /* MobileSatUITests.swift */,
+			);
+			path = MobileSatUITests;
+			sourceTree = "<group>";
+		};
+		BEC2AA1D2929522C009FAE5F /* cpp */ = {
+			isa = PBXGroup;
+			children = (
+				BE143BEB292952AF00426418 /* orbitTools */,
+			);
+			name = cpp;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BEA939E229065069008A835D /* MobileSat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BEA93A072906506E008A835D /* Build configuration list for PBXNativeTarget "MobileSat" */;
+			buildPhases = (
+				BEA939DF29065069008A835D /* Sources */,
+				BEA939E029065069008A835D /* Frameworks */,
+				BEA939E129065069008A835D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MobileSat;
+			productName = projectSkeleton;
+			productReference = BEA939E329065069008A835D /* MobileSat.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BEA939F22906506E008A835D /* MobileSatTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BEA93A0A2906506E008A835D /* Build configuration list for PBXNativeTarget "MobileSatTests" */;
+			buildPhases = (
+				BEA939EF2906506E008A835D /* Sources */,
+				BEA939F02906506E008A835D /* Frameworks */,
+				BEA939F12906506E008A835D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BEA939F52906506E008A835D /* PBXTargetDependency */,
+			);
+			name = MobileSatTests;
+			productName = projectSkeletonTests;
+			productReference = BEA939F32906506E008A835D /* MobileSatTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		BEA939FC2906506E008A835D /* MobileSatUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BEA93A0D2906506E008A835D /* Build configuration list for PBXNativeTarget "MobileSatUITests" */;
+			buildPhases = (
+				BEA939F92906506E008A835D /* Sources */,
+				BEA939FA2906506E008A835D /* Frameworks */,
+				BEA939FB2906506E008A835D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BEA939FF2906506E008A835D /* PBXTargetDependency */,
+			);
+			name = MobileSatUITests;
+			productName = projectSkeletonUITests;
+			productReference = BEA939FD2906506E008A835D /* MobileSatUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BEA939DB29065069008A835D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1400;
+				LastUpgradeCheck = 1400;
+				TargetAttributes = {
+					BEA939E229065069008A835D = {
+						CreatedOnToolsVersion = 14.0.1;
+						LastSwiftMigration = 1400;
+					};
+					BEA939F22906506E008A835D = {
+						CreatedOnToolsVersion = 14.0.1;
+						TestTargetID = BEA939E229065069008A835D;
+					};
+					BEA939FC2906506E008A835D = {
+						CreatedOnToolsVersion = 14.0.1;
+						TestTargetID = BEA939E229065069008A835D;
+					};
+				};
+			};
+			buildConfigurationList = BEA939DE29065069008A835D /* Build configuration list for PBXProject "MobileSat" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BEA939DA29065069008A835D;
+			productRefGroup = BEA939E429065069008A835D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BEA939E229065069008A835D /* MobileSat */,
+				BEA939F22906506E008A835D /* MobileSatTests */,
+				BEA939FC2906506E008A835D /* MobileSatUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BEA939E129065069008A835D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BEA939EE2906506E008A835D /* Preview Assets.xcassets in Resources */,
+				BEA939EB2906506E008A835D /* Assets.xcassets in Resources */,
+				BE143C29292952B000426418 /* readme.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEA939F12906506E008A835D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEA939FB2906506E008A835D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BEA939DF29065069008A835D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BEE69C502973372E002BA186 /* ListView.swift in Sources */,
+				BE143C19292952B000426418 /* cNoradSGP4.cpp in Sources */,
+				BE143C24292952B000426418 /* coord.cpp in Sources */,
+				BEE69C5429733909002BA186 /* MultipleSelectionRowView.swift in Sources */,
+				BEE69C5229733855002BA186 /* AddListView.swift in Sources */,
+				BE143C28292952B000426418 /* cVector.cpp in Sources */,
+				BE143C1D292952B000426418 /* cNoradSDP4.cpp in Sources */,
+				BE143C18292952B000426418 /* cNoradBase.cpp in Sources */,
+				BE143C1F292952B000426418 /* cTLE.cpp in Sources */,
+				BEA939E929065069008A835D /* ContentView.swift in Sources */,
+				BE143C22292952B000426418 /* cEci.cpp in Sources */,
+				BE65CAB12A2BE70100D1C245 /* CSE335.MobileSat.Satellite.xcdatamodeld in Sources */,
+				BE143C21292952B000426418 /* globals.cpp in Sources */,
+				BE143C1E292952B000426418 /* cJulian.cpp in Sources */,
+				BE143C25292952B000426418 /* stdafx.cpp in Sources */,
+				BE143C1B292952B000426418 /* stdafx.cpp in Sources */,
+				BE143C2D2929598A00426418 /* orbittools.cpp in Sources */,
+				BE143C1C292952B000426418 /* cSatellite.cpp in Sources */,
+				BE143C23292952B000426418 /* cSite.cpp in Sources */,
+				BE143C1A292952B000426418 /* cOrbit.cpp in Sources */,
+				BEA939E729065069008A835D /* MobileSatApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEA939EF2906506E008A835D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE65CAB22A2BE70100D1C245 /* CSE335.MobileSat.Satellite.xcdatamodeld in Sources */,
+				BEA939F82906506E008A835D /* MobileSatTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEA939F92906506E008A835D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BEA93A022906506E008A835D /* MobileSatUITests.swift in Sources */,
+				BEA93A042906506E008A835D /* MobileSatUITestsLaunchTests.swift in Sources */,
+				BE65CAB32A2BE70100D1C245 /* CSE335.MobileSat.Satellite.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BEA939F52906506E008A835D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BEA939E229065069008A835D /* MobileSat */;
+			targetProxy = BEA939F42906506E008A835D /* PBXContainerItemProxy */;
+		};
+		BEA939FF2906506E008A835D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BEA939E229065069008A835D /* MobileSat */;
+			targetProxy = BEA939FE2906506E008A835D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		BEA93A052906506E008A835D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BEA93A062906506E008A835D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BEA93A082906506E008A835D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"MobileSat/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.asu.fitzgeraldmatthew.MobileSat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "MobileSat/orbittools/MobileSat-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BEA93A092906506E008A835D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"MobileSat/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.asu.fitzgeraldmatthew.MobileSat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "MobileSat/orbittools/MobileSat-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		BEA93A0B2906506E008A835D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.asu.fitzgeraldmatthew.MobileSatTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MobileSat.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MobileSat";
+			};
+			name = Debug;
+		};
+		BEA93A0C2906506E008A835D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.asu.fitzgeraldmatthew.MobileSatTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MobileSat.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MobileSat";
+			};
+			name = Release;
+		};
+		BEA93A0E2906506E008A835D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.asu.fitzgeraldmatthew.MobileSatUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MobileSat;
+			};
+			name = Debug;
+		};
+		BEA93A0F2906506E008A835D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.asu.fitzgeraldmatthew.MobileSatUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MobileSat;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BEA939DE29065069008A835D /* Build configuration list for PBXProject "MobileSat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEA93A052906506E008A835D /* Debug */,
+				BEA93A062906506E008A835D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BEA93A072906506E008A835D /* Build configuration list for PBXNativeTarget "MobileSat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEA93A082906506E008A835D /* Debug */,
+				BEA93A092906506E008A835D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BEA93A0A2906506E008A835D /* Build configuration list for PBXNativeTarget "MobileSatTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEA93A0B2906506E008A835D /* Debug */,
+				BEA93A0C2906506E008A835D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BEA93A0D2906506E008A835D /* Build configuration list for PBXNativeTarget "MobileSatUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEA93A0E2906506E008A835D /* Debug */,
+				BEA93A0F2906506E008A835D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		BE65CAAF2A2BE70100D1C245 /* CSE335.MobileSat.Satellite.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BE65CAB02A2BE70100D1C245 /* CSE335.MobileSat.Satellite.xcdatamodel */,
+			);
+			currentVersion = BE65CAB02A2BE70100D1C245 /* CSE335.MobileSat.Satellite.xcdatamodel */;
+			path = CSE335.MobileSat.Satellite.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = BEA939DB29065069008A835D /* Project object */;
+}
