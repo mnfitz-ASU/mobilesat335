@@ -163,7 +163,6 @@ class PersistentData : ObservableObject
 
 struct ContentView: View
 {
-    
     @Environment(\.scenePhase) var scenePhase
     
     @Environment(\.managedObjectContext) var objContext
@@ -486,10 +485,25 @@ struct ContentView: View
                     Text("Something went wrong.")
                 }
                 
+                /*
                 NavigationLink(destination: ListView(time: $time))
                 {
                     Text("List Satellites")
                 }
+                 */
+                TabView
+                {
+                    ContentView()
+                        .tabItem {
+                            Label("Home", systemImage: "house")
+                        }.padding()
+                    
+                    ListView(time: $time)
+                        .tabItem {
+                            Label("List", systemImage: "line.3.horizontal")
+                        }.padding()
+                }
+                .padding()
             }
             .onChange(of: scenePhase) { newPhase in
                 switch newPhase {
@@ -506,6 +520,7 @@ struct ContentView: View
         .navigationTitle("Map")
         .listStyle(.grouped)
     } // NavigationView
+    
 }
 
 struct ContentView_Previews: PreviewProvider
