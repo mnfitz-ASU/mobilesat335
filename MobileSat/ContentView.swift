@@ -10,6 +10,8 @@ import SwiftUI
 import Foundation
 import MapKit
 
+
+
 struct OrbitalDataTLE : Codable
 {
     var satName : String = ""
@@ -163,6 +165,7 @@ class PersistentData : ObservableObject
 
 struct ContentView: View
 {
+    
     @Environment(\.scenePhase) var scenePhase
     
     @Environment(\.managedObjectContext) var objContext
@@ -387,6 +390,33 @@ struct ContentView: View
         stringQuery.resume()
     }
 
+    struct SideMenu: View
+    {
+        @Binding var isShowing: Bool
+        var content: AnyView
+        var edgeTransition: AnyTransition = .move(edge: .leading)
+        var body: some View {
+            ZStack(alignment: .bottom) {
+                if (isShowing) {
+                    Color.black
+                        .opacity(0.3)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            isShowing.toggle()
+                        }
+                    content
+                        .transition(edgeTransition)
+                        .background(
+                            Color.clear
+                        )
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+            .ignoresSafeArea()
+            .animation(.easeInOut, value: isShowing)
+        }
+    }
+    
     var body: some View
     {
         NavigationView
@@ -485,12 +515,12 @@ struct ContentView: View
                     Text("Something went wrong.")
                 }
                 
-                /*
+                
                 NavigationLink(destination: ListView(time: $time))
                 {
                     Text("List Satellites")
                 }
-                 */
+                 
                 TabView
                 {
                     ContentView()

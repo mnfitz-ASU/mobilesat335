@@ -9,6 +9,7 @@ import SwiftUI
 import Foundation
 import MapKit
 
+/*
 struct MultipleSelectionRow: View
 {
     var name : String
@@ -37,3 +38,4 @@ struct MultipleSelectionRow: View
         }
     }
 }
+*/
