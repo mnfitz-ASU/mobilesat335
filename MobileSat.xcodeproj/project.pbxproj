@@ -35,7 +35,8 @@
 		BEA93A042906506E008A835D /* MobileSatUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA93A032906506E008A835D /* MobileSatUITestsLaunchTests.swift */; };
 		BEE69C502973372E002BA186 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE69C4F2973372E002BA186 /* ListView.swift */; };
 		BEE69C5229733855002BA186 /* AddListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE69C5129733855002BA186 /* AddListView.swift */; };
-		BEE69C5429733909002BA186 /* MultipleSelectionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE69C5329733909002BA186 /* MultipleSelectionRowView.swift */; };
+		BEE6DF252A5F234B00DBF735 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE6DF242A5F234B00DBF735 /* MapView.swift */; };
+		BEE6DF2D2A703DFA00DBF735 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE6DF2C2A703DFA00DBF735 /* Main.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,7 +105,8 @@
 		BEC2AA1C29294CD0009FAE5F /* MobileSat-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MobileSat-Bridging-Header.h"; sourceTree = "<group>"; };
 		BEE69C4F2973372E002BA186 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		BEE69C5129733855002BA186 /* AddListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddListView.swift; sourceTree = "<group>"; };
-		BEE69C5329733909002BA186 /* MultipleSelectionRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSelectionRowView.swift; sourceTree = "<group>"; };
+		BEE6DF242A5F234B00DBF735 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		BEE6DF2C2A703DFA00DBF735 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,9 +229,10 @@
 				BE79980F29219C13007F7CBB /* orbittools */,
 				BEA939E629065069008A835D /* MobileSatApp.swift */,
 				BEA939E829065069008A835D /* ContentView.swift */,
-				BEE69C5329733909002BA186 /* MultipleSelectionRowView.swift */,
+				BEE6DF242A5F234B00DBF735 /* MapView.swift */,
 				BEE69C4F2973372E002BA186 /* ListView.swift */,
 				BEE69C5129733855002BA186 /* AddListView.swift */,
+				BEE6DF2C2A703DFA00DBF735 /* Main.swift */,
 				BEA939EA2906506E008A835D /* Assets.xcassets */,
 				BEA939EC2906506E008A835D /* Preview Content */,
 				BE65CAAF2A2BE70100D1C245 /* CSE335.MobileSat.Satellite.xcdatamodeld */,
@@ -404,12 +407,13 @@
 			files = (
 				BEE69C502973372E002BA186 /* ListView.swift in Sources */,
 				BE143C19292952B000426418 /* cNoradSGP4.cpp in Sources */,
+				BEE6DF2D2A703DFA00DBF735 /* Main.swift in Sources */,
 				BE143C24292952B000426418 /* coord.cpp in Sources */,
-				BEE69C5429733909002BA186 /* MultipleSelectionRowView.swift in Sources */,
 				BEE69C5229733855002BA186 /* AddListView.swift in Sources */,
 				BE143C28292952B000426418 /* cVector.cpp in Sources */,
 				BE143C1D292952B000426418 /* cNoradSDP4.cpp in Sources */,
 				BE143C18292952B000426418 /* cNoradBase.cpp in Sources */,
+				BEE6DF252A5F234B00DBF735 /* MapView.swift in Sources */,
 				BE143C1F292952B000426418 /* cTLE.cpp in Sources */,
 				BEA939E929065069008A835D /* ContentView.swift in Sources */,
 				BE143C22292952B000426418 /* cEci.cpp in Sources */,

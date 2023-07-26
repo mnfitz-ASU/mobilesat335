@@ -13,7 +13,7 @@ struct MobileSatApp: App {
     @StateObject var persistentData = PersistentData()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainView()
                 .environment(\.managedObjectContext, persistentData.container.viewContext)
         }
     }

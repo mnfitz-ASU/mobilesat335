@@ -11,6 +11,8 @@ import MapKit
 
 struct ListView: View
 {
+    @Binding var tabSelection: Int
+    
     @Environment(\.managedObjectContext) var objContext
     @FetchRequest(entity: Satellite.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Satellite.name, ascending: true)]) var satellites : FetchedResults<Satellite>
     @Binding var time : Date
