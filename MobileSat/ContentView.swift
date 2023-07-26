@@ -10,143 +10,6 @@ import SwiftUI
 import Foundation
 import MapKit
 
-
-
-struct OrbitalDataTLE : Codable
-{
-    var satName : String = ""
-    var line1 : String = ""
-    var line2 : String = ""
-}
-
-struct GeoCoords
-{
-    var name : String = ""
-    var latitude : Double = 0
-    var longitude : Double = 0
-    var altitude : Double = 0
-}
-
-extension Satellite
-{
-    public var wrappedName : String {name ?? ""}
-    public var wrappedTleLine1 : String {tleLine1 ?? ""}
-    public var wrappedTleLine2 : String {tleLine2 ?? ""}
-    public var wrappedIsFavorite : Bool {isFavorite}
-    public var wrappedDate : Date {date ?? Date()-86400}
-}
-
-struct SatelliteSelect : Identifiable, Hashable
-{
-    var name : String = ""
-    var tle1 : String = ""
-    var tle2 : String = ""
-    var date : Date = Date.now
-    var isSelected : Bool = false
-    var id : UUID = UUID()
-}
-
-extension CLLocationCoordinate2D: Identifiable
-{
-    public var id: String
-    {
-        "\(latitude)-\(longitude)"
-    }
-}
-
-func calculateGeoCoords(inSatellite : Satellite, inTime : Date) -> GeoCoords
-{
-    // TRICKY: Calling a C routine that needs to return values using C pointers
-    // In SwiftUI, we simulate C pointers using UnsafeMutablePointer<>
-    
-    let nameCStr = Array(inSatellite.wrappedName.utf8CString)
-    let line1CStr = Array(inSatellite.wrappedTleLine1.utf8CString)
-    let line2CStr = Array(inSatellite.wrappedTleLine2.utf8CString)
-
-    var age : Double = 0
-    var ageP : UnsafeMutablePointer<Double> = .init(&age)
-    var lat : Double = 0
-    var latP : UnsafeMutablePointer<Double> = .init(&lat)
-    var lon : Double = 0
-    var lonP : UnsafeMutablePointer<Double> = .init(&lon)
-    var alt : Double = 0
-    var altP : UnsafeMutablePointer<Double> = .init(&alt)
-    
-    // TRICKY: Call C function here using the SwiftUI binding header decl.
-    orbit_to_lla(nameCStr, line1CStr, line2CStr, ageP, latP, lonP, altP)
-    
-    var coords : GeoCoords = GeoCoords()
-    coords.name = inSatellite.wrappedName
-    coords.latitude = lat
-    coords.longitude = lon
-    coords.altitude = alt
-    return coords
-}
-
-class MyMapViewSettings : ObservableObject
-{
-    @Published var mapType : MKMapType = .standard
-    @Published var region : MKCoordinateRegion? = nil
-}
-
-struct MyMapView : UIViewRepresentable
-{
-    @Environment(\.managedObjectContext) var objContext
-    @FetchRequest(entity: Satellite.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Satellite.name, ascending: true)]) var satellites : FetchedResults<Satellite>
-    
-    @Binding var region : MKCoordinateRegion
-    @Binding var time : Date
-    @EnvironmentObject private var mapSettings : MyMapViewSettings
-    @State var updateView : Int = 0
-    
-    // UIViewRepresentable wants these functions defined
-    func makeUIView(context: Context) -> MKMapView
-    {
-        let mapView = MKMapView(frame: .zero)
-        mapView.setRegion(region, animated: false)
-        mapView.mapType = mapSettings.mapType
-        
-        mapView.removeAnnotations(mapView.annotations)
-
-        for var satellite in satellites
-        {
-            var coords : GeoCoords = calculateGeoCoords(inSatellite: satellite, inTime: time)
-            var newAnnotation : MKPointAnnotation = MKPointAnnotation(__coordinate: CLLocationCoordinate2D(latitude: coords.latitude, longitude: coords.longitude), title: coords.name, subtitle: nil)
-            mapView.addAnnotation(newAnnotation)
-        }
-        
-        return mapView
-    }
-    
-    func updateUIView(_ uiView: MKMapView, context: Context)
-    {
-        if (mapSettings.region != nil)
-        {
-            uiView.setRegion(mapSettings.region!, animated: true)
-            mapSettings.region = nil
-        }
-        uiView.mapType = mapSettings.mapType
-        
-        uiView.removeAnnotations(uiView.annotations)
-
-        for var satellite in satellites
-        {
-            if (satellite.isFavorite)
-            {
-                //uiView.remove
-                var coords : GeoCoords = calculateGeoCoords(inSatellite: satellite, inTime: time)
-                var newAnnotation : MKPointAnnotation = MKPointAnnotation(__coordinate: CLLocationCoordinate2D(latitude: coords.latitude, longitude: coords.longitude), title: coords.name, subtitle: nil)
-                uiView.addAnnotation(newAnnotation)
-            }
-        }
-    }
-    
-    func refresh()
-    {
-        updateView += 1
-    }
-}
-
 class PersistentData : ObservableObject
 {
     let container = NSPersistentContainer(name: "CSE335.MobileSat.Satellite")
@@ -165,6 +28,7 @@ class PersistentData : ObservableObject
 
 struct ContentView: View
 {
+    @Binding var tabSelection : Int
     
     @Environment(\.scenePhase) var scenePhase
     
@@ -176,8 +40,8 @@ struct ContentView: View
     @ObservedObject var mapSettings = MyMapViewSettings()
     @State var mapType : MKMapType = .standard
     
-    @State var brightSatellites : [SatelliteSelect] = []
-    @State var gpsSatellites : [SatelliteSelect] = []
+    //@State var brightSatellites : [SatelliteSelect] = []
+    //@State var gpsSatellites : [SatelliteSelect] = []
     
     /*
      https://celestrak.org/NORAD/elements/gp.php?<QUERY>=<VALUE>&FORMAT=JSON-PRETTY
@@ -189,8 +53,9 @@ struct ContentView: View
      SPECIAL: Special data sets for the GEO Protected Zone (GPZ) or GPZ Plus.
      */
     // data structure that store news objects from google news
-    @State var queryType : String = "NAME"
-    @State var value : String = ""
+    
+    //@State var queryType : String = "NAME"
+    
     @State var time : Date = Date.now
     
     let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
@@ -207,12 +72,12 @@ struct ContentView: View
                 {
                     wasUpdated = true
                     print("Satellite: " + satellite.wrappedName + " has expired")
-                    var isFavorite = satellite.wrappedIsFavorite
-                    var name = satellite.wrappedName
+                    let isFavorite = satellite.wrappedIsFavorite
+                    let name = satellite.wrappedName
                     
                     let nameUrl : String = "https://celestrak.org/NORAD/elements/gp.php?NAME=" + name + "&FORMAT=TLE"
                     
-                    var url = URL(string: nameUrl)!
+                    let url = URL(string: nameUrl)!
                     let urlSession = URLSession.shared
                     
                     // stringQuery is a new task that will run separately to the main thread
@@ -254,169 +119,7 @@ struct ContentView: View
             }
         } while (wasUpdated == true)
     }
-    
-    func addSatelliteName()
-    {
-        let nameUrl : String = "https://celestrak.org/NORAD/elements/gp.php?NAME=" + value + "&FORMAT=TLE"
-        
-        var url = URL(string: nameUrl)!
-        let urlSession = URLSession.shared
-        
-        // stringQuery is a new task that will run separately to the main thread
-        let stringQuery = urlSession.dataTask(with: url, completionHandler:
-        {
-            data, response, error -> Void in
-            if (error != nil)
-            {
-                print(error!.localizedDescription)
-            }
 
-            DispatchQueue.main.async {
-                let tleString : String = String(decoding: data!, as: UTF8.self)
-                let lines = tleString.split(separator: "\r\n")
-                if (lines.count == 3)
-                {
-                    let name : String = String(lines[0]).trimmingCharacters(in: .whitespaces)
-                    let line1 : String = String(lines[1]).trimmingCharacters(in: .whitespaces)
-                    let line2 : String = String(lines[2]).trimmingCharacters(in: .whitespaces)
-                    
-                    let isUnique : Bool = ((satellites.first(where: {$0.wrappedName == name})) == nil)
-                    if (isUnique)
-                    {
-                        var newSatellite : Satellite = Satellite(context: objContext)
-                        newSatellite.name = name
-                        newSatellite.tleLine1 = line1
-                        newSatellite.tleLine2 = line2
-                        newSatellite.date = Date.now
-                        
-                        try? objContext.save()
-                    }
-                }
-            }
-        })
-        // resume() tells the task to start running on its own thread
-        stringQuery.resume()
-    }
-    
-    func addSatelliteBrightest()
-    {
-        let brightestUrl : String = "https://celestrak.org/NORAD/elements/gp.php?GROUP=visual&FORMAT=tle"
-
-        var url = URL(string: brightestUrl)!
-        let urlSession = URLSession.shared
-        
-        // stringQuery is a new task that will run separately to the main thread
-        let stringQuery = urlSession.dataTask(with: url, completionHandler:
-        {
-            data, response, error -> Void in
-            if (error != nil)
-            {
-                print(error!.localizedDescription)
-            }
-
-            DispatchQueue.main.async {
-                let tleString : String = String(decoding: data!, as: UTF8.self)
-                let linesX3 = tleString.split(separator: "\r\n")
-                
-                brightSatellites.removeAll()
-                
-                for i in stride(from: 0, to: linesX3.count-1, by: 3)
-                {
-                    let name : String = String(linesX3[i+0]).trimmingCharacters(in: .whitespaces)
-                    let line1 : String = String(linesX3[i+1]).trimmingCharacters(in: .whitespaces)
-                    let line2 : String = String(linesX3[i+2]).trimmingCharacters(in: .whitespaces)
-                    
-                    let isUnique : Bool = ((satellites.first(where: {$0.wrappedName == name})) == nil)
-                    if (isUnique)
-                    {
-                        var newSatellite : SatelliteSelect = SatelliteSelect()
-                        newSatellite.name = name
-                        newSatellite.tle1 = line1
-                        newSatellite.tle2 = line2
-                        newSatellite.date = Date.now
-                        
-                        brightSatellites.append(newSatellite)
-                    }
-                }
-            }
-        })
-        // resume() tells the task to start running on its own thread
-        stringQuery.resume()
-    }
-    
-    func addSatelliteGPS()
-    {
-        let gpsUrl : String = "https://celestrak.org/NORAD/elements/gp.php?GROUP=gps-ops&FORMAT=tle"
-
-        var url = URL(string: gpsUrl)!
-        let urlSession = URLSession.shared
-        
-        // stringQuery is a new task that will run separately to the main thread
-        let stringQuery = urlSession.dataTask(with: url, completionHandler:
-        {
-            data, response, error -> Void in
-            if (error != nil)
-            {
-                print(error!.localizedDescription)
-            }
-
-            DispatchQueue.main.async {
-                let tleString : String = String(decoding: data!, as: UTF8.self)
-                let linesX3 = tleString.split(separator: "\r\n")
-                
-                gpsSatellites.removeAll()
-                
-                for i in stride(from: 0, to: linesX3.count-1, by: 3)
-                {
-                    let name : String = String(linesX3[i+0]).trimmingCharacters(in: .whitespaces)
-                    let line1 : String = String(linesX3[i+1]).trimmingCharacters(in: .whitespaces)
-                    let line2 : String = String(linesX3[i+2]).trimmingCharacters(in: .whitespaces)
-                    
-                    let isUnique : Bool = ((satellites.first(where: {$0.wrappedName == name})) == nil)
-                    if (isUnique)
-                    {
-                        var newSatellite : SatelliteSelect = SatelliteSelect()
-                        newSatellite.name = name
-                        newSatellite.tle1 = line1
-                        newSatellite.tle2 = line2
-                        newSatellite.date = Date.now
-                        
-                        gpsSatellites.append(newSatellite)
-                    }
-                }
-            }
-        })
-        // resume() tells the task to start running on its own thread
-        stringQuery.resume()
-    }
-
-    struct SideMenu: View
-    {
-        @Binding var isShowing: Bool
-        var content: AnyView
-        var edgeTransition: AnyTransition = .move(edge: .leading)
-        var body: some View {
-            ZStack(alignment: .bottom) {
-                if (isShowing) {
-                    Color.black
-                        .opacity(0.3)
-                        .ignoresSafeArea()
-                        .onTapGesture {
-                            isShowing.toggle()
-                        }
-                    content
-                        .transition(edgeTransition)
-                        .background(
-                            Color.clear
-                        )
-                }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-            .ignoresSafeArea()
-            .animation(.easeInOut, value: isShowing)
-        }
-    }
-    
     var body: some View
     {
         NavigationView
@@ -472,68 +175,8 @@ struct ContentView: View
                             }
                         }
                     }
+                    .padding()
                 }
-                
-                Picker("Search By: ", selection: $queryType)
-                {
-                    Text("Name").tag("NAME")
-                    Text("Brightest").tag("BRIGHTEST")
-                    Text("GPS").tag("GPS")
-                }
-                .pickerStyle(.segmented)
-
-                switch queryType
-                {
-                case "NAME":
-                    HStack
-                    {
-                        Text("Satellite Name:")
-                        TextField("Name", text: $value)
-                    }
-                    Button("Add")
-                    {
-                        addSatelliteName()
-                    }
-                    
-                case "BRIGHTEST":
-                    NavigationLink(destination: AddListView(inList: $brightSatellites).onAppear(perform: {
-                        self.addSatelliteBrightest()
-                    }))
-                    {
-                        Text("Search Brightest")
-                    }
-                    
-                case "GPS":
-                    NavigationLink(destination: AddListView(inList: $gpsSatellites).onAppear(perform: {
-                        self.addSatelliteGPS()
-                    }))
-                    {
-                        Text("Search GPS")
-                    }
-                    
-                default:
-                    Text("Something went wrong.")
-                }
-                
-                
-                NavigationLink(destination: ListView(time: $time))
-                {
-                    Text("List Satellites")
-                }
-                 
-                TabView
-                {
-                    ContentView()
-                        .tabItem {
-                            Label("Home", systemImage: "house")
-                        }.padding()
-                    
-                    ListView(time: $time)
-                        .tabItem {
-                            Label("List", systemImage: "line.3.horizontal")
-                        }.padding()
-                }
-                .padding()
             }
             .onChange(of: scenePhase) { newPhase in
                 switch newPhase {
@@ -549,10 +192,12 @@ struct ContentView: View
         }
         .navigationTitle("Map")
         .listStyle(.grouped)
+
     } // NavigationView
     
 }
 
+/*
 struct ContentView_Previews: PreviewProvider
 {
     static var previews: some View
@@ -560,3 +205,4 @@ struct ContentView_Previews: PreviewProvider
         ContentView()
     }
 }
+*/
