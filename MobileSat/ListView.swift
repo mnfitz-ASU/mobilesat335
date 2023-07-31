@@ -34,9 +34,9 @@ struct ListView: View
                         VStack
                         {
                             Text(satellite.wrappedName)
-                            Text(String(coords.longitude))
-                            Text(String(coords.latitude))
-                            Text(String(coords.altitude))
+                            Text(String(round(100 * coords.longitude) / 100))
+                            Text(String(round(100 * coords.latitude) / 100))
+                            Text(String(round(100 * coords.altitude) / 100))
                         }
                         if (satellite.isFavorite)
                         {

@@ -8,6 +8,8 @@ import CoreData
 import SwiftUI
 import Foundation
 import MapKit
+import CoreLocation
+import CoreLocationUI
 
 struct OrbitalDataTLE : Codable
 {
@@ -93,6 +95,7 @@ struct MyMapView : UIViewRepresentable
     
     @Binding var region : MKCoordinateRegion
     @Binding var time : Date
+     
     @EnvironmentObject private var mapSettings : MyMapViewSettings
     @State var updateView : Int = 0
     

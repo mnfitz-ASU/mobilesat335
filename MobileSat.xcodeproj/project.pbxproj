@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE0816822A78639F00B18AF5 /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0816812A78639F00B18AF5 /* SidebarView.swift */; };
 		BE143C18292952B000426418 /* cNoradBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143BF7292952B000426418 /* cNoradBase.cpp */; };
 		BE143C19292952B000426418 /* cNoradSGP4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143BF8292952B000426418 /* cNoradSGP4.cpp */; };
 		BE143C1A292952B000426418 /* cOrbit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE143BF9292952B000426418 /* cOrbit.cpp */; };
@@ -57,6 +58,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BE0816812A78639F00B18AF5 /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
 		BE143BED292952AF00426418 /* cNoradSGP4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cNoradSGP4.h; sourceTree = "<group>"; };
 		BE143BEF292952AF00426418 /* cNoradSDP4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cNoradSDP4.h; sourceTree = "<group>"; };
 		BE143BF0292952AF00426418 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				BE79980F29219C13007F7CBB /* orbittools */,
 				BEA939E629065069008A835D /* MobileSatApp.swift */,
 				BEA939E829065069008A835D /* ContentView.swift */,
+				BE0816812A78639F00B18AF5 /* SidebarView.swift */,
 				BEE6DF242A5F234B00DBF735 /* MapView.swift */,
 				BEE69C4F2973372E002BA186 /* ListView.swift */,
 				BEE69C5129733855002BA186 /* AddListView.swift */,
@@ -424,6 +427,7 @@
 				BE143C1B292952B000426418 /* stdafx.cpp in Sources */,
 				BE143C2D2929598A00426418 /* orbittools.cpp in Sources */,
 				BE143C1C292952B000426418 /* cSatellite.cpp in Sources */,
+				BE0816822A78639F00B18AF5 /* SidebarView.swift in Sources */,
 				BE143C23292952B000426418 /* cSite.cpp in Sources */,
 				BE143C1A292952B000426418 /* cOrbit.cpp in Sources */,
 				BEA939E729065069008A835D /* MobileSatApp.swift in Sources */,

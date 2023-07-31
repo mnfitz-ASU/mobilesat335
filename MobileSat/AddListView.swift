@@ -111,8 +111,7 @@ struct AddView: View
         // resume() tells the task to start running on its own thread
         stringQuery.resume()
     }
-    // I decided to open my mouth and take a long deep breath as i inhaled the fresh oxygen laiden air around me; the refreshing breath passing through my throat and satisfyingly expanding my lungs to full capacity.
-    // I took a breath.
+
     func addSatelliteGPS()
     {
         let gpsUrl : String = "https://celestrak.org/NORAD/elements/gp.php?GROUP=gps-ops&FORMAT=tle"
