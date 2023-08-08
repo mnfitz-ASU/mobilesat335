@@ -9,6 +9,8 @@ import CoreData
 import SwiftUI
 import Foundation
 import MapKit
+import CoreLocation
+import CoreLocationUI
 
 class PersistentData : ObservableObject
 {
@@ -26,6 +28,26 @@ class PersistentData : ObservableObject
     }
 }
 
+class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate
+{
+    let manager = CLLocationManager()
+
+    @Published var location: CLLocationCoordinate2D?
+
+    override init() {
+        super.init()
+        manager.delegate = self
+    }
+
+    func requestLocation() {
+        manager.requestLocation()
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        location = locations.first?.coordinate
+    }
+}
+
 struct ContentView: View
 {
     @Binding var tabSelection : Int
@@ -39,6 +61,12 @@ struct ContentView: View
     @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 34.048927, longitude: -111.093735), span: MKCoordinateSpan(latitudeDelta: 10, longitudeDelta: 10))
     @ObservedObject var mapSettings = MyMapViewSettings()
     @State var mapType : MKMapType = .standard
+    
+    @StateObject var locationManager = LocationManager()
+    
+    @State var phoneLocation : CLLocationCoordinate2D = CLLocationCoordinate2D()
+    @State var isLocShared : Bool = false
+    
     
     //@State var brightSatellites : [SatelliteSelect] = []
     //@State var gpsSatellites : [SatelliteSelect] = []
@@ -60,6 +88,16 @@ struct ContentView: View
     
     let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
     
+    func testDate(inSatellite : Satellite) -> Bool
+    {
+        var result = false
+        if (inSatellite.wrappedDate.addingTimeInterval(86400) <= Date.now)
+        {
+            result = true
+        }
+        return result
+    }
+    
     func updateSatellites()
     {
         var wasUpdated : Bool = false
@@ -76,8 +114,9 @@ struct ContentView: View
                     let name = satellite.wrappedName
                     
                     let nameUrl : String = "https://celestrak.org/NORAD/elements/gp.php?NAME=" + name + "&FORMAT=TLE"
+                    let safeUrl = nameUrl.addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)!
                     
-                    let url = URL(string: nameUrl)!
+                    let url = URL(string: safeUrl)!
                     let urlSession = URLSession.shared
                     
                     // stringQuery is a new task that will run separately to the main thread
@@ -126,6 +165,27 @@ struct ContentView: View
         {
             List
             {
+                /*
+                // TODO: Put location button into separate accountview
+                LocationButton
+                {
+                    locationManager.requestLocation()
+                    do
+                    {
+                        phoneLocation = locationManager.location!
+                        isLocShared = true
+
+                    }
+                    catch
+                    {
+                        phoneLocation = CLLocationCoordinate2D()
+                        isLocShared = false
+                    }
+                    
+                }
+                
+                */
+                
                 Picker("Map Style", selection: $mapType)
                 {
                     Text("Standard").tag(MKMapType.standard)
@@ -139,15 +199,6 @@ struct ContentView: View
                     mapSettings.mapType = newMapType
                 })
                 
-                MyMapView(satellites: _satellites, region: $region, time: $time)
-                .environmentObject(mapSettings)
-                .frame(width: 400, height: 300)
-                .onReceive(timer)
-                {
-                    _ in
-                    time = Date.now
-                }
-
                 ScrollView(.horizontal, showsIndicators: true)
                 {
                     HStack{
@@ -160,10 +211,13 @@ struct ContentView: View
                                 VStack
                                 {
                                     Text(satellite.wrappedName).font(.system(size:12))
-                                    Text("Latitude: " + String(coords.latitude)).font(.system(size:10))
-                                    Text("Longitude: " + String(coords.longitude)).font(.system(size:10))
-                                    Text("Altitude: " + String(coords.altitude)).font(.system(size:10))
+                                    /*
+                                     Text("Latitude: " + String(round(100 * coords.latitude) / 100)).font(.system(size:10))
+                                    Text("Longitude: " + String(round(100 * coords.longitude) / 100)).font(.system(size:10))
+                                    Text("Altitude: " + String(round(100 * coords.altitude) / 100)).font(.system(size:10))
+                                     */
                                 }
+                                //round(100 * x) / 100
                                 .padding()
                                 .background(Color.blue.opacity(0.5))
                                 .cornerRadius(10)
@@ -177,6 +231,19 @@ struct ContentView: View
                     }
                     .padding()
                 }
+                
+                MyMapView(satellites: _satellites, region: $region, time: $time)
+                .environmentObject(mapSettings)
+                //.frame(width: 400, height: 300)
+                .frame(width: 600, height: 600, alignment: .center)
+
+                .onReceive(timer)
+                {
+                    _ in
+                    time = Date.now
+                }
+
+                
             }
             .onChange(of: scenePhase) { newPhase in
                 switch newPhase {
