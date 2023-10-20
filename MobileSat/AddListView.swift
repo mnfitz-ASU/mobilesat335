@@ -51,12 +51,15 @@ struct AddView: View
                     let isUnique : Bool = ((satellites.first(where: {$0.wrappedName == name})) == nil)
                     if (isUnique)
                     {
-                        var newSatellite : Satellite = Satellite(context: objContext)
+                        let newSatellite : Satellite = Satellite(context: objContext)
                         newSatellite.name = name
                         newSatellite.tleLine1 = line1
                         newSatellite.tleLine2 = line2
                         newSatellite.date = Date.now
                         
+                        newSatellite.icon = "circle.fill"
+                        newSatellite.color = "red"
+                                    
                         try? objContext.save()
                     }
                 }
@@ -255,11 +258,12 @@ struct AddListView: View
                     let isUnique : Bool = ((satellites.first(where: {$0.wrappedName == selected.name})) == nil)
                     if (isUnique)
                     {
-                        var newSatellite : Satellite = Satellite(context: objContext)
+                        let newSatellite : Satellite = Satellite(context: objContext)
                         newSatellite.name = selected.name
                         newSatellite.tleLine1 = selected.tle1
                         newSatellite.tleLine2 = selected.tle2
                         newSatellite.date = Date.now
+                        newSatellite.icon = "empty"
                         
                         try? objContext.save()
                     }

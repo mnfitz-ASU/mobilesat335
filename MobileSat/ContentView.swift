@@ -28,28 +28,10 @@ class PersistentData : ObservableObject
     }
 }
 
-class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate
-{
-    let manager = CLLocationManager()
-
-    @Published var location: CLLocationCoordinate2D?
-
-    override init() {
-        super.init()
-        manager.delegate = self
-    }
-
-    func requestLocation() {
-        manager.requestLocation()
-    }
-
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        location = locations.first?.coordinate
-    }
-}
-
 struct ContentView: View
 {
+    @EnvironmentObject var locationManager : LocationDataManager
+    
     @Binding var tabSelection : Int
     
     @Environment(\.scenePhase) var scenePhase
@@ -58,14 +40,13 @@ struct ContentView: View
     @FetchRequest(entity: Satellite.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Satellite.name, ascending: true)])
     var satellites : FetchedResults<Satellite>
     
-    @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 34.048927, longitude: -111.093735), span: MKCoordinateSpan(latitudeDelta: 10, longitudeDelta: 10))
+    var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 34.048927, longitude: -111.093735), span: MKCoordinateSpan(latitudeDelta: 10, longitudeDelta: 10))
     @ObservedObject var mapSettings = MyMapViewSettings()
     @State var mapType : MKMapType = .standard
     
-    @StateObject var locationManager = LocationManager()
     
-    @State var phoneLocation : CLLocationCoordinate2D = CLLocationCoordinate2D()
-    @State var isLocShared : Bool = false
+    
+    //@Binding var isLocShared : Bool
     
     
     //@State var brightSatellites : [SatelliteSelect] = []
@@ -104,7 +85,7 @@ struct ContentView: View
         repeat
         {
             wasUpdated = false
-            for var satellite in satellites
+            for satellite in satellites
             {
                 if (satellite.wrappedDate.addingTimeInterval(86400) <= Date.now)
                 {
@@ -112,6 +93,8 @@ struct ContentView: View
                     print("Satellite: " + satellite.wrappedName + " has expired")
                     let isFavorite = satellite.wrappedIsFavorite
                     let name = satellite.wrappedName
+                    let icon = satellite.icon
+                    let color = satellite.color
                     
                     let nameUrl : String = "https://celestrak.org/NORAD/elements/gp.php?NAME=" + name + "&FORMAT=TLE"
                     let safeUrl = nameUrl.addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)!
@@ -142,6 +125,8 @@ struct ContentView: View
                                 satellite.tleLine2 = line2
                                 satellite.date = Date.now
                                 satellite.isFavorite = isFavorite
+                                satellite.icon = icon
+                                satellite.color = color
                                 
                                 try? objContext.save()
                                 
@@ -163,87 +148,74 @@ struct ContentView: View
     {
         NavigationView
         {
-            List
+            ZStack
             {
-                /*
-                // TODO: Put location button into separate accountview
-                LocationButton
-                {
-                    locationManager.requestLocation()
-                    do
-                    {
-                        phoneLocation = locationManager.location!
-                        isLocShared = true
-
-                    }
-                    catch
-                    {
-                        phoneLocation = CLLocationCoordinate2D()
-                        isLocShared = false
-                    }
-                    
-                }
-                
-                */
-                
-                Picker("Map Style", selection: $mapType)
-                {
-                    Text("Standard").tag(MKMapType.standard)
-                    Text("Satellite").tag(MKMapType.satellite)
-                    Text("Hybrid").tag(MKMapType.hybrid)
-                }
-                .pickerStyle(.segmented)
-                .onChange(of: mapType, perform:
-                {
-                    newMapType in
-                    mapSettings.mapType = newMapType
-                })
-                
-                ScrollView(.horizontal, showsIndicators: true)
-                {
-                    HStack{
-                        ForEach(satellites)
-                        {
-                            satellite in
-                            let coords : GeoCoords = calculateGeoCoords(inSatellite: satellite, inTime: time)
-                            if (satellite.isFavorite)
-                            {
-                                VStack
-                                {
-                                    Text(satellite.wrappedName).font(.system(size:12))
-                                    /*
-                                     Text("Latitude: " + String(round(100 * coords.latitude) / 100)).font(.system(size:10))
-                                    Text("Longitude: " + String(round(100 * coords.longitude) / 100)).font(.system(size:10))
-                                    Text("Altitude: " + String(round(100 * coords.altitude) / 100)).font(.system(size:10))
-                                     */
-                                }
-                                //round(100 * x) / 100
-                                .padding()
-                                .background(Color.blue.opacity(0.5))
-                                .cornerRadius(10)
-                                .onTapGesture
-                                {
-                                    mapSettings.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: coords.latitude, longitude: coords.longitude), span: MKCoordinateSpan(latitudeDelta: 7, longitudeDelta: 7))
-                                    mapSettings.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: coords.latitude, longitude: coords.longitude), span: MKCoordinateSpan(latitudeDelta: 10, longitudeDelta: 10))
-                                }
-                            }
-                        }
-                    }
-                    .padding()
-                }
-                
-                MyMapView(satellites: _satellites, region: $region, time: $time)
+                MyMapView(satellites: _satellites, region: region, time: $time)
                 .environmentObject(mapSettings)
-                //.frame(width: 400, height: 300)
-                .frame(width: 600, height: 600, alignment: .center)
-
+                .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+                .ignoresSafeArea()
                 .onReceive(timer)
                 {
                     _ in
                     time = Date.now
                 }
-
                 
+                VStack(alignment: .center)
+                {
+                    Picker("Map Style", selection: $mapType)
+                    {
+                        Text("Standard").tag(MKMapType.standard)
+                        Text("Satellite").tag(MKMapType.satellite)
+                        Text("Hybrid").tag(MKMapType.hybrid)
+                    }
+                    .pickerStyle(.segmented)
+                    .opacity(1)
+                    .onChange(of: mapType, perform:
+                                {
+                        newMapType in
+                        mapSettings.mapType = newMapType
+                    })
+                    
+                    ScrollView(.horizontal, showsIndicators: true)
+                    {
+                        HStack
+                        {
+                            ForEach(satellites)
+                            {
+                                satellite in
+                                if (satellite.icon != nil && satellite.icon != "empty")
+                                {
+                                    let coords : GeoCoords = calculateGeoCoords(inSatellite: satellite, inTime: time)
+                                    
+                                    VStack
+                                    {
+                                        Label("", systemImage: satellite.icon ?? "circle.fill")
+                                            .symbolRenderingMode(.hierarchical)
+                                            .foregroundStyle(decodeColor(inString: satellite.color ?? "red"))
+                                        Text(satellite.wrappedName).font(.system(size:12))
+                                        /*
+                                         Text("Latitude: " + String(round(100 * coords.latitude) / 100)).font(.system(size:10))
+                                         Text("Longitude: " + String(round(100 * coords.longitude) / 100)).font(.system(size:10))
+                                         Text("Altitude: " + String(round(100 * coords.altitude) / 100)).font(.system(size:10))
+                                         */
+                                    }
+                                    //round(100 * x) / 100
+                                    .padding()
+                                    .background(Color.white.opacity(1))
+                                    .cornerRadius(10)
+                                    .onTapGesture
+                                    {
+                                        mapSettings.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: coords.latitude, longitude: coords.longitude), span: MKCoordinateSpan(latitudeDelta: 7, longitudeDelta: 7))
+                                        mapSettings.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: coords.latitude, longitude: coords.longitude), span: MKCoordinateSpan(latitudeDelta: 10, longitudeDelta: 10))
+                                    }
+                                }
+                                
+                            }
+                        }
+                        .padding()
+                    }
+                }
+                .offset(x:0, y: UIScreen.main.bounds.size.height*(-0.3))
             }
             .onChange(of: scenePhase) { newPhase in
                 switch newPhase {
@@ -254,6 +226,8 @@ struct ContentView: View
                         updateSatellites()
                     case .background:
                         print("background")
+                    default:
+                        print("inactive")
                 }
             }
         }
