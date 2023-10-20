@@ -45,6 +45,52 @@ struct SatelliteSelect : Identifiable, Hashable
     var id : UUID = UUID()
 }
 
+class CustomAnnotation: NSObject, MKAnnotation {
+    var coordinate: CLLocationCoordinate2D
+    var title: String?
+    var subtitle: String?
+    var image: UIImage?
+    var satellite : Satellite
+    
+    init(coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?, image: UIImage?, satellite: Satellite) {
+        self.coordinate = coordinate
+        self.title = title
+        self.subtitle = subtitle
+        self.image = UIImage(systemName: satellite.icon!)
+        
+        self.satellite = satellite
+    }
+}
+struct CustomAnnotationView: View {
+        
+    let annotation : CustomAnnotation
+    
+    var body: some View
+    {
+        ZStack
+        {
+            VStack(spacing: 0)
+            {
+                
+                Image(uiImage: annotation.image!)
+                /*
+                Image(systemName: annotation.satellite.icon!)
+                    .font(.title)
+                    .foregroundColor(decodeColor(inString: annotation.satellite.color!))
+                */
+                Image(systemName: "arrowtriangle.down.fill")
+                    .font(.caption)
+                    .foregroundColor(decodeColor(inString: annotation.satellite.color!))
+                    .offset(x: 0, y: -5)
+            }
+            Text(annotation.title!)
+                .font(.headline)
+            Text(annotation.subtitle!)
+                .font(.subheadline)
+            
+        }
+    }
+}
 extension CLLocationCoordinate2D: Identifiable
 {
     public var id: String
@@ -93,11 +139,17 @@ struct MyMapView : UIViewRepresentable
     @Environment(\.managedObjectContext) var objContext
     @FetchRequest(entity: Satellite.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Satellite.name, ascending: true)]) var satellites : FetchedResults<Satellite>
     
-    @Binding var region : MKCoordinateRegion
+    var region : MKCoordinateRegion
     @Binding var time : Date
      
     @EnvironmentObject private var mapSettings : MyMapViewSettings
     @State var updateView : Int = 0
+    
+    @EnvironmentObject var locationManager : LocationDataManager
+
+    
+    //@Binding var isLocShared : Bool
+    //@Binding var phoneLocation : CLLocationCoordinate2D
     
     // UIViewRepresentable wants these functions defined
     func makeUIView(context: Context) -> MKMapView
@@ -111,8 +163,11 @@ struct MyMapView : UIViewRepresentable
         for satellite in satellites
         {
             let coords : GeoCoords = calculateGeoCoords(inSatellite: satellite, inTime: time)
-            let newAnnotation : MKPointAnnotation = MKPointAnnotation(__coordinate: CLLocationCoordinate2D(latitude: coords.latitude, longitude: coords.longitude), title: coords.name, subtitle: nil)
-            mapView.addAnnotation(newAnnotation)
+            
+            let annotation = CustomAnnotation(coordinate: CLLocationCoordinate2D(latitude: coords.latitude, longitude: coords.longitude), title: coords.name, subtitle: nil, image: UIImage(systemName: satellite.icon!)
+, satellite: satellite)
+            mapView.addAnnotation(annotation)
+            mapView.selectAnnotation(annotation, animated: true)
         }
         
         return mapView
@@ -128,16 +183,33 @@ struct MyMapView : UIViewRepresentable
         uiView.mapType = mapSettings.mapType
         
         uiView.removeAnnotations(uiView.annotations)
-
-        for var satellite in satellites
+        
+        let isLocKnown : Bool = ((locationManager.authorizationStatus == .authorizedWhenInUse || locationManager.authorizationStatus == .authorizedAlways) && locationManager.location != nil)
+        if (isLocKnown)
         {
-            if (satellite.isFavorite)
-            {
+            let phoneAnnotation : MKPointAnnotation = MKPointAnnotation(__coordinate: CLLocationCoordinate2D(latitude: locationManager.location!.latitude, longitude: locationManager.location!.longitude), title: "You", subtitle: "You are Here")
+            uiView.addAnnotation(phoneAnnotation)
+        }
+        
+        /*
+        if (isLocShared)
+        {
+            var phoneAnnotation : MKPointAnnotation = MKPointAnnotation(__coordinate: CLLocationCoordinate2D(latitude: phoneLocation.latitude, longitude: phoneLocation.longitude), title: "You", subtitle: "You are Here")
+            uiView.addAnnotation(phoneAnnotation)
+        }
+         */
+        
+        for satellite in satellites
+        {
+            //if (satellite.isFavorite)
+            //{
                 //uiView.remove
-                var coords : GeoCoords = calculateGeoCoords(inSatellite: satellite, inTime: time)
-                var newAnnotation : MKPointAnnotation = MKPointAnnotation(__coordinate: CLLocationCoordinate2D(latitude: coords.latitude, longitude: coords.longitude), title: coords.name, subtitle: nil)
-                uiView.addAnnotation(newAnnotation)
-            }
+                let coords : GeoCoords = calculateGeoCoords(inSatellite: satellite, inTime: time)
+            let annotation = CustomAnnotation(coordinate: CLLocationCoordinate2D(latitude: coords.latitude, longitude: coords.longitude), title: coords.name, subtitle: nil, image: UIImage(systemName: satellite.icon!), satellite: satellite)
+                //var newAnnotation : MKPointAnnotation = MKPointAnnotation(__coordinate: CLLocationCoordinate2D(latitude: coords.latitude, longitude: coords.longitude), title: coords.name, subtitle: nil)
+                uiView.addAnnotation(annotation)
+                uiView.selectAnnotation(annotation, animated: true)
+            //}
         }
     }
     
